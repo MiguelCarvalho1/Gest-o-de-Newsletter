@@ -5,7 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    
+                    <a href="{{ route('dashboard') }}" >
+                        <i class="fa-solid fa-newspaper"></i>
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -15,8 +17,18 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Plataforma de Gestão de Newsletter') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ url('/news') }}">
+                        {{ __('News') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/news/create') }}">
+                        {{ __(' Create News') }}
+                    </x-nav-link>
                 </div>
             </div>
+
+            
+
+
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->

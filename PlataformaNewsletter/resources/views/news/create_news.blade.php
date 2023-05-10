@@ -17,7 +17,7 @@
     <header>
         <!-- Cabeçalho do site -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="{{ url('/dashboard') }}"> Newslletter</a>
+          <a class="navbar-brand" href="{{ url('/dashboard') }}"> <i class="fa-solid fa-newspaper"></i> Newslletter</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
