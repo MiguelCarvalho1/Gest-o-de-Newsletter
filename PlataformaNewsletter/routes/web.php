@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,12 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+ /*Noticia*/
+ Route::get('/news/create',[NewsController::class, 'create'] )->middleware('auth');
+ Route::post('/news', [NewsController::class, 'store'])->middleware('auth');
+ Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
+ Route::get('/', [NewsController::class, 'home']);
+/* Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
+ Route::put('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');*/
+ 

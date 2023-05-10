@@ -11,7 +11,7 @@ class NewsController extends Controller
     public function index()
 {
     $noticias = News::all();
-    return view('/noticia/index', ['noticia' => $noticias]);
+    return view('/news/index', ['noticia' => $noticias]);
 }
 
 public function home(){
@@ -21,7 +21,7 @@ public function home(){
 }
     public function create()
 {
-    return view('/news/create');
+    return view('/news/create_news');
 }
 public function store(Request $request)
 {
@@ -53,7 +53,7 @@ public function store(Request $request)
 
         
     
-    return redirect('/noticia')->with('msg', 'Notícia criada com sucesso!');
+    return redirect('/news')->with('msg', 'Notícia criada com sucesso!');
 }
 
    /*  Função para abrir a view "Editar Noticia", onde é passado um $id como parâmetro.
@@ -61,7 +61,7 @@ public function store(Request $request)
         Retorna a view "Editar Noticia".*/
         public function editar_noticia($id){
             $noticia = News::findOrFail($id);
-            return view('/noticia/editar_noticia', ['noticia' => $noticia]);
+            return view('/news/editar_noticia', ['noticia' => $noticia]);
         }
 
 
