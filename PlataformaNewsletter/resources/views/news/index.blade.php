@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bootstrap User Management Data Table</title>
+<title>News</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -208,10 +208,7 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-sm-5">
                     </div>
-                    <div class="col-sm-7">
-                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New News</span></a>
-                        <a href="{{ url('/dashboard') }}" class="btn btn-secondary">&#xE24D;</i> <span>Back</span></a>						
-                    </div>
+                    
                 </div>
             </div>
             <h1>Notícias</h1>
