@@ -53,10 +53,7 @@
                         </div>
                         @endforeach
                     </main>
-    
-               
             </div>
             
-         
     </body>
 </html>
