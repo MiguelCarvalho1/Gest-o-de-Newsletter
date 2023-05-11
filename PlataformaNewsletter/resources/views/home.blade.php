@@ -46,7 +46,7 @@
                             <img src="/img/noticia/{{$noticia->media}}" class="card-img-top" >
                             <div class="card-body">
                               <h5 class="card-title">{{$noticia-> titulo}}</h5>
-                              <p class="card-text">>{{ Str::limit($noticia-> conteudo, 200) }}</p>
+                              <p class="card-text">>{!! Str::limit($noticia->conteudo, 100) !!}</p>
                               <a href="#" class="btn btn-primary">Read More</a>
                             </div>
                           </div>

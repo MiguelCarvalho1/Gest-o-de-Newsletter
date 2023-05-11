@@ -17,16 +17,18 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Plataforma de Gestão de Newsletter') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ url('/news') }}">
-                        {{ __('News') }}
-                    </x-nav-link>
                     <x-nav-link href="{{ url('') }}">
                         {{ __('Newsletter') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/news') }}">
+                        {{ __('News') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/news/create') }}">
                         {{ __(' Create News') }}
                     </x-nav-link>
-                 
+                    <x-nav-link href="{{ url('/admin/assinante') }}">
+                        {{ __(' Assinantes') }}
+                    </x-nav-link>
                 </div>
             </div>
 

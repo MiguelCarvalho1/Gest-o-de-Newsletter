@@ -88,10 +88,27 @@
   </script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#summernote').summernote({
-        height: 400
+   $(document).ready(function() {
+    $('#summernote').summernote({
+        callbacks: {
+            onImageUpload: function(files) {
+                // Lógica para o upload de imagens, se necessário
+            },
+            onPaste: function(e) {
+                // Lógica para colar conteúdo, se necessário
+            },
+            onKeyup: function(e) {
+                // Lógica para detectar teclas pressionadas, se necessário
+            },
+            onBlur: function(e) {
+                // Aqui ocorre a remoção das tags <p>
+                var content = $(this).summernote('getText');
+                var contentWithoutPTags = content.replace(/<\/?p[^>]*>/g, '');
+                $(this).summernote('code', content, , contentWithoutPTags);
+            }
+        }
     });
-    });
+});
+
 </script>
 </html>

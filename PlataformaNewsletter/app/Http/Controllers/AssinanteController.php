@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Assinante;
+use App\Models\CodiPostal;
+
 
 use Illuminate\Http\Request;
 
