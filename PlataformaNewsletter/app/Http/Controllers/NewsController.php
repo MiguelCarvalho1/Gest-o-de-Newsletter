@@ -61,7 +61,7 @@ public function store(Request $request)
         Retorna a view "Editar Noticia".*/
         public function editar_noticia($id){
             $noticia = News::findOrFail($id);
-            return view('/news/editar_noticia', ['noticia' => $noticia]);
+            return view('/news/edit_news', ['noticia' => $noticia]);
         }
 
 

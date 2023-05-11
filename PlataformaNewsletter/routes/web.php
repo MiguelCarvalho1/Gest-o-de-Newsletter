@@ -33,6 +33,6 @@ Route::middleware([
  Route::post('/news', [NewsController::class, 'store'])->middleware('auth');
  Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
  Route::get('/', [NewsController::class, 'home']);
-/* Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
- Route::put('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');*/
+ Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
+ Route::post('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');
  

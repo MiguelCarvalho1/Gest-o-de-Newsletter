@@ -33,7 +33,6 @@ body {
 }
 .table-title {
     padding-bottom: 15px;
-    background: #299be4;
     color: #fff;
     padding: 16px 30px;
     margin: -20px -25px 10px;
@@ -197,6 +196,9 @@ $(document).ready(function(){
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+              </li>
             </ul>
           </div>
         </nav>
@@ -242,25 +244,13 @@ $(document).ready(function(){
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width:40px; heigth: 40px; margin:2px"><a href="/noticia/editar/{{$noticia->titulo}}" style="color:white"><i class="fa fa-edit"></i></a></button>
+                                    <button class="btn bg-warning text-white" style="width:40px; heigth: 40px; margin:2px"><a href="/news/editar/{{$noticia->id}}" style="color:white"><i class="fa fa-edit"></i></a></button>
                                 
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
             </div>
         </div>
     </div>

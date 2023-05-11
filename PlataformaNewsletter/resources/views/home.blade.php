@@ -43,7 +43,7 @@
                       <div class="row">
                         <div class="col-md-8">
                           <div class="card mb-4">
-                            <img src="/img/noticia/{{$noticia->media}}" class="card-img-top" alt="News Image">
+                            <img src="/img/noticia/{{$noticia->media}}" class="card-img-top" >
                             <div class="card-body">
                               <h5 class="card-title">{{$noticia-> titulo}}</h5>
                               <p class="card-text">>{{ Str::limit($noticia-> conteudo, 200) }}</p>

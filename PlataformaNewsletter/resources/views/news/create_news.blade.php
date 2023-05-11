@@ -29,6 +29,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('/news') }}">News</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+              </li>
             </ul>
           </div>
         </nav>
@@ -40,7 +43,7 @@
         <div class="row">
             <div class="col-md-7 offset-3 mt-4">
                 <div class="card-body">
-                    <form action="/noticia" method="POST">
+                    <form action="/news" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="titulo">Título: </label>
