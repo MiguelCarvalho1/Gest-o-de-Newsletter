@@ -49,19 +49,13 @@
 	    <label for="mce-ADDRESS-addr1">Endereço 1 </label>
 		<input type="text" value="" maxlength="70" name="ADDRESS[addr1]" id="mce-ADDRESS-addr1" class="">
 	</div>
-	<div class="mc-field-group">
-	    <label for="mce-ADDRESS-addr2">Endereço 2</label>
-		<input type="text" value="" maxlength="70" name="ADDRESS[addr2]" id="mce-ADDRESS-addr2">		
-	</div>
+	
 	<div class="mc-address-fields-group">
 		<div class="mc-field-group">
 				<label for="mce-ADDRESS-city">Cidade</label>
 			<input type="text" value="" maxlength="40" name="ADDRESS[city]" id="mce-ADDRESS-city" class="">
 		</div>
-		<div class="mc-field-group">
-				<label for="mce-ADDRESS-state">Região</label>
-		<input type="text" value="" maxlength="20" name="ADDRESS[state]" id="mce-ADDRESS-state" class="">
-		</div>
+	
 		<div class="mc-field-group">
 				<label for="mce-ADDRESS-zip">Codigo Postal</label>
 			<input type="text" value="" maxlength="10" name="ADDRESS[zip]" id="mce-ADDRESS-zip" class="">
@@ -90,3 +84,4 @@
     </body>
     
 </html>
+
