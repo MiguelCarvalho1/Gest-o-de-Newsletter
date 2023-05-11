@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\AssinanteController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +38,13 @@ Route::middleware([
  Route::get('/', [NewsController::class, 'home']);
  Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
  Route::post('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');
+
+Route::get('/admin/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
+Route::get('/assinantes_create', [AssinanteController::class, 'create']);
+Route::post('/assinantes', [AssinanteController::class, 'store']);
+Route::get('/assinantes/{id}', [AssinanteController::class, 'show'])->name('assinantes.show');
+Route::get('/assinantes/{id}/edit', [AssinanteController::class, 'edit'])->name('assinantes.edit');
+Route::put('/assinantes/{id}', [AssinanteController::class, 'update'])->name('assinantes.update');
+Route::delete('/assinantes/{id}', [AssinanteController::class, 'destroy'])->name('assinantes.destroy');
+
  
