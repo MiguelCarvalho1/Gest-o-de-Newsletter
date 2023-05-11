@@ -231,7 +231,7 @@ $(document).ready(function(){
                             @foreach($noticia as $noticia)
                             <tr>
                                 <td style="text-align: justify; vertical-align: middle"><a href="/noticia/editar/{{$noticia->id}}">{{$noticia->titulo}}</td>
-                                <td style="text-align: justify; vertical-align: middle">{{ Str::limit($noticia-> conteudo, 100) }}</td>
+                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!} {{ Str::limit($noticia->conteudo, 100) }}</td>
                                 
                                 <td style="text-align: center; vertical-align: middle"><img src="/img/noticia/{{$noticia->media}}" style="width: 75px;"></img></td>
                                 
