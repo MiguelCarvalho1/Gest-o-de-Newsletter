@@ -197,7 +197,10 @@ $(document).ready(function(){
                 <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+                <a class="nav-link" href="{{ url('/newsletter') }}">Newslletter</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/newsletter/create') }}"> Create Newslletter</a>
               </li>
             </ul>
           </div>
@@ -220,6 +223,7 @@ $(document).ready(function(){
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead style="text-align: center;">
                             <tr>
+                                <th>Selecionar</th>
                                 <th>Titulo</th>
                                 <th>Conteúdo</th>
                                 <th>Media</th>
@@ -230,8 +234,11 @@ $(document).ready(function(){
                         <tbody>
                             @foreach($noticia as $noticia)
                             <tr>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <input type="checkbox" id="checkbox{{$noticia->id}}">
+                                </td>
                                 <td style="text-align: justify; vertical-align: middle"><a href="/noticia/editar/{{$noticia->id}}">{{$noticia->titulo}}</td>
-                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!} {{ Str::limit($noticia->conteudo, 100) }}</td>
+                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                 
                                 <td style="text-align: center; vertical-align: middle"><img src="/img/noticia/{{$noticia->media}}" style="width: 75px;"></img></td>
                                 
@@ -250,6 +257,7 @@ $(document).ready(function(){
                             @endforeach
                         </tbody>
                     </table>
+                    <button id="createNewsletterBtn" class="btn btn-primary">Criar Newsletter</button>
                 </div>
             </div>
         </div>

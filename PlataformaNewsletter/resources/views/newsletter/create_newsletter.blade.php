@@ -33,7 +33,7 @@
                 <a class="nav-link" href="{{ url('/news/create') }}"> Create News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+                <a class="nav-link" href="{{ url('/newsletter') }}">Newslletter</a>
               </li>
             </ul>
           </div>
@@ -43,6 +43,46 @@
     <h1>Criar Newslletter</h1>
 </div>
 </body>
+
+<script>
+  $(document).ready(function(){
+    $('#createNewsletterBtn').click(function(){
+      var selectedNews = [];
+      $('input[type="checkbox"]:checked').each(function(){
+        var newsId = $(this).attr('id').replace('checkbox', '');
+        selectedNews.push(newsId);
+      });
+      .ajax({
+        url: '/newsletter/create',
+          method: 'POST',
+        data: { newsIds: selectedNews },
+        success: function(response) {
+      //     // Ação de sucesso
+        },
+        error: function(error) {
+      //     // Ação de erro
+          }
+      });;
+      
+      // Aqui você pode enviar os IDs das notícias selecionadas para o servidor
+      // para processá-los e criar a newsletter.
+      // Você pode usar uma chamada AJAX para enviar os dados para o servidor.
+      // Exemplo:
+      // $.ajax({
+      //   url: '/newsletter/create',
+      //   method: 'POST',
+      //   data: { newsIds: selectedNews },
+      //   success: function(response) {
+      //     // Ação de sucesso
+      //   },
+      //   error: function(error) {
+      //     // Ação de erro
+      //   }
+      // });
+    });
+  });
+  </script>
+  
 
 
 </html>
