@@ -9,7 +9,7 @@ class CodiPostal extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['localidade', 'concelho', 'pais'];
+    protected $fillable = ['localidade', 'concelho', 'pais', 'codiPostal'];
 
     public function assinantes()
     {

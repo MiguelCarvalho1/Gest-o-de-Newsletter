@@ -29,36 +29,37 @@
 	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
 </style>
 <div id="mc_embed_signup">
-    <form action="https://outlook.us12.list-manage.com/subscribe/post?u=6379f1691b89467c4f0450a24&amp;id=d5bc99403f&amp;f_id=002d40e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <form action="/" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
         <div id="mc_embed_signup_scroll">
         <h2>Inscreva-se</h2>
         <div class="indicates-required"><span class="asterisk">*</span>  indica necessário</div>
 <div class="mc-field-group">
-	<label for="mce-EMAIL">Email  <span class="asterisk">*</span>
+	<label for="mce-EMAIL">Email:  <span class="asterisk">*</span>
 </label>
-	<input type="email" value="" name="email" class="required email" id="mce-EMAIL" required>
+	<input type="email" value="" name="email" class="required email" id="email" required>
 	<span id="mce-EMAIL-HELPERTEXT" class="helper_text"></span>
 </div>
 <div class="mc-field-group">
-	<label for="mce-FNAME">Nome </label>
-	<input type="text" value="" name="nome" class="" id="mce-FNAME">
+	<label for="nome">Nome: </label>
+	<input type="string" value="" name="nome" class="" id="nome">
 	<span id="mce-FNAME-HELPERTEXT" class="helper_text"></span>
 </div>
+
 <div class="mc-address-group">
 	<div class="mc-field-group">
-	    <label for="mce-ADDRESS-addr1">Endereço 1 </label>
-		<input type="text" value="" maxlength="70" name="ADDRESS[addr1]" id="mce-ADDRESS-addr1" class="">
+	    <label for="localidade">Endereço: </label>
+		<input type="string" value="" maxlength="70" name="localidade" id="localidade" class="">
 	</div>
 	
 	<div class="mc-address-fields-group">
 		<div class="mc-field-group">
-				<label for="mce-ADDRESS-city">Cidade</label>
-			<input type="text" value="" maxlength="40" name="ADDRESS[city]" id="mce-ADDRESS-city" class="">
+				<label for="concelho">Concelho</label>
+			<input type="string" value="" maxlength="40" name="concelho" id="concelho" class="">
 		</div>
 	
 		<div class="mc-field-group">
-				<label for="mce-ADDRESS-zip">Codigo Postal</label>
-			<input type="text" value="" maxlength="10" name="ADDRESS[zip]" id="mce-ADDRESS-zip" class="">
+				<label for="codiPostal">Codigo Postal</label>
+			<input type="string" value="" maxlength="10" name="codiPostal" id="codiPostal" class="">
 		</div>
 	</div>
 	<div class="mc-field-group">
