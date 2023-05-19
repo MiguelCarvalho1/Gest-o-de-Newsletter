@@ -1,5 +1,4 @@
-
-
+@section('title', 'News')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -194,10 +193,10 @@ $(document).ready(function(){
                 <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
+                <a class="nav-link" href="{{ url('/news') }}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('/newsletters') }}">Newslletter</a>
+                <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('/newsletters/create') }}"> Create Newslletter</a>
@@ -206,93 +205,54 @@ $(document).ready(function(){
           </div>
         </nav>
       </header>
+    
 <div class="container-xl">
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-5">
+                        <h2>Newsletters</h2>
                     </div>
-                    
                 </div>
             </div>
-            <h1>Notícias</h1>
             <div class="card-body">
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead style="text-align: center;">
                             <tr>
-                                <th>Selecionar</th>
-                                <th>Titulo</th>
-                                <th>Conteúdo</th>
-                                <th>Media</th>
-                                <th>Ativo</th>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Data de Criação</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($noticia as $noticia)
+                            @foreach($newsletters as $newsletter)
                             <tr>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <input type="checkbox" id="checkbox{{$noticia->id}}">
+                                <td>{{ $newsletter->id }}</td>
+                                <td>{{ $newsletter->titulo }}</td>
+                                <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
+                                <td style="text-align: center;">
+                                    <a href="/newsletter/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
+                                    <a href="/newsletter/{{ $newsletter->id }}/edit" class="btn btn-success">Editar</a>
+                                    <form action="/newsletter/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                    </form>
                                 </td>
-                                <td style="text-align: justify; vertical-align: middle"><a href="/news/editar/{{$noticia->id}}">{{$noticia->titulo}}</td>
-                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
-                                
-                                <td style="text-align: center; vertical-align: middle"><img src="/img/noticia/{{$noticia->media}}" style="width: 75px;"></img></td>
-                                
-                                <td style="text-align: center; vertical-align: middle">
-                                    
-                                    @if($noticia->ativo == 1)
-                                    <b type="radio"  class="text-center" style="color: green; ">Sim</b>
-                                    @else
-                                    <b  type="radio"  style="color: red; text-aling: center;">Não</b>
-                                    @endif
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width:40px; heigth: 40px; margin:2px">
-                                        <a href="/news/editar/{{$noticia->id}}" style="color:white">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </button>
-                                </td>
-                                
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <button id="createNewsletterBtn" class="btn btn-primary">Criar Newsletter</button>
                 </div>
             </div>
         </div>
     </div>
-</div>     
+</div>
 </body>
-<script>
 
-    // Aqui você pode enviar os IDs das notícias selecionadas para o servidor
-        // para processá-los e criar a newsletter.
-        $(document).ready(function() {
-  $('#createNewsletterBtn').click(function() {
-    var selectedNews = [];
-    $('input[type="checkbox"]:checked').each(function() {
-      var newsId = $(this).attr('id').replace('checkbox', '');
-      selectedNews.push(newsId);
-    });
-    $.ajax({
-      url: '/newsletters/create',
-      method: 'POST',
-      data: { newsIds: selectedNews },
-      success: function(response) {
-        alert('A newsletter foi criada com sucesso!');
-      },
-      error: function(error) {
-        alert('Ocorreu um erro ao criar a newsletter. Por favor, tente novamente mais tarde.');
-      }
-    });
-  });
-});
-    </script>
     
 </html>
