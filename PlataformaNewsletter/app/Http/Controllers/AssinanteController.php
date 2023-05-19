@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Assinante;
 use App\Models\CodiPostal;
-
-
 use Illuminate\Http\Request;
 
 class AssinanteController extends Controller
@@ -16,27 +14,7 @@ class AssinanteController extends Controller
         return view('assinantes.index', compact('assinantes'));
     }
 
-    public function create()
-    {
-        // Retorna a view para criar um novo assinante
-        return view('assinante_create');
-    }
-
-    public function store(Request $request)
-    {
-        // Validação dos dados do formulário
-        $validatedData = $request->validate([
-            'nome' => 'required|string',
-            'email' => 'required|email|unique:assinantes',
-            'id_codiPostal' => 'required|exists:codiPostal,id'
-        ]);
-
-        // Cria um novo assinante no banco de dados
-        $assinante = Assinante::create($validatedData);
-
-        // Redireciona para a página de exibição do assinante criado
-        return redirect()->route('/', $assinante->id);
-    }
+  
 
     public function show($id)
     {
@@ -45,7 +23,14 @@ class AssinanteController extends Controller
         return view('assinantes.show', compact('assinante'));
     }
 
-    public function edit($id)
+
+    public function create()
+    {
+        // Retorna a página de exibição de um assinante específico
+        
+        return view('assinante_create');
+    }
+   /* public function edit($id)
     {
         // Retorna a view para editar um assinante específico
         $assinante = Assinante::findOrFail($id);
@@ -66,7 +51,7 @@ class AssinanteController extends Controller
         $assinante->update($validatedData);
 
         // Redireciona para a página de exibição do assinante atualizado
-        return redirect()->route('assinantes.show', $assinante->id);
+        return redirect()->route('/assinantes', $assinante->id);
     }
 
     public function destroy($id)
@@ -77,5 +62,51 @@ class AssinanteController extends Controller
 
         // Redireciona para a página inicial dos assinantes
         return redirect()->route('assinantes.index');
+    }*/
+
+    public function store(Request $request)
+     { 
+        //dd($request) ;
+       /* $data = $request->validate([
+        
+            'nome' => 'required',
+            'email' => 'required|email',
+            'codiPostal' => 'required' ,
+            'localidade' =>'required',
+            'pais' => 'required',
+            'concelho' =>'required',
+            
+        ]);*/    
+
+
+
+        $postalCode = CodiPostal::create([
+            'id_codiPostal'=> "1",
+            'codiPostal' => $request->codiPostal,
+            'localidade' => $request->localidade,
+            'pais' => $request->pais,
+            'concelho' => $request->concelho,
+            
+
+
+
+        ]);
+    
+      
+
+        $subscriber = Assinante::create([
+            
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'id_codiPostal'=> "1",
+        ]);
+
+        $subscriber->postalCode()->associate($postalCode);
+        $subscriber->save();
+
+        // Faça qualquer outra ação necessária aqui, como exibir uma mensagem de sucesso
+        $request->session()->flash('success', 'Subscrito com sucesso!');
+       
+        return redirect('/assinantes')->back();
     }
 }
