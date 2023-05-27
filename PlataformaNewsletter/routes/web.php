@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AssinanteController;
+use App\Http\Controllers\NewsletterController;
 
 
 
@@ -58,3 +59,6 @@ Route::delete('/assinantes/{id}', [AssinanteController::class, 'destroy'])->name
 
 
  
+// Newsletter
+Route::get('/newsletters', [NewsletterController::class, 'index'])->middleware('auth');
+Route::post('/newsletters/create', [NewsletterController::class, 'create'])->middleware('auth');

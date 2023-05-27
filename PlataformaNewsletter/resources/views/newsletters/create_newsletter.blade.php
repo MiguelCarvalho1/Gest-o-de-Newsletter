@@ -9,9 +9,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <!-- summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
     <header>
@@ -33,7 +30,7 @@
                 <a class="nav-link" href="{{ url('/news/create') }}"> Create News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+                <a class="nav-link" href="{{ url('/newsletters') }}">Newslletter</a>
               </li>
             </ul>
           </div>
@@ -43,6 +40,8 @@
     <h1>Criar Newslletter</h1>
 </div>
 </body>
+
+
 
 
 </html>

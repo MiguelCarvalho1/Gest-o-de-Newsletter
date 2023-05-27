@@ -30,7 +30,7 @@
                 <a class="nav-link" href="{{ url('/news') }}">News</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+                <a class="nav-link" href="{{ url('/newsletters') }}">Newslletter</a>
               </li>
             </ul>
           </div>
