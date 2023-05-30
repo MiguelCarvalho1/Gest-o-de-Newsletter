@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("nome");
             $table->string('email')->unique();
             $table->unsignedBigInteger("id_codiPostal");
-        $table->foreign('id_codiPostal')->references('id')->on('codiPostal');
+            $table->foreign('id_codiPostal')->references('id')->on('codiPostal');
             $table->timestamps();
             
         });
