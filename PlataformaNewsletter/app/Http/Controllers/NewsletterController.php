@@ -22,23 +22,31 @@ class NewsletterController extends Controller
 
 
 
-    public function create(Request $request)
-    {
-    $newsIds = $request->input('newsIds');
+        public function create(Request $request)
+        {
+            $newsIds = $request->input('newsIds');
+        $title = $request->input('title');
+        $content = $request->input('content');
 
-    // Obter as notícias selecionadas do banco de dados
-    $selectedNews = News::whereIn('id', $newsIds)->get();
+        // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
+        $newsletter = new Newsletter();
+        $newsletter->title = $title;
+        $newsletter->content = $content;
+        
 
-    // Criar o conteúdo da newsletter com base nas notícias selecionadas
-    $newsletterContent = '';
-    foreach ($selectedNews as $news) {
-        $newsletterContent .= "Título: " . $news->titulo . "\n";
-        $newsletterContent .= "Conteúdo: " . $news->conteudo . "\n";
-        $newsletterContent .= "--------------------------------\n";
-    }
-
-    // Aqui você pode adicionar a lógica para salvar a newsletter no banco de dados, enviar por e-mail, etc.
-
-    return redirect('/newsletters')->json(['message' => 'A newsletter foi criada com sucesso!', 'newsletterContent' => $newsletterContent]);
-}
+            $newsIds = $request->input('newsIds');
+            
+            // Crie a newsletter com base nos IDs das notícias selecionadas
+           
+           
+            $newsletter->save();
+            dd($newsletter);
+    
+            // Vincule as notícias selecionadas à newsletter
+            $newsletter->news()->attach($newsIds);
+    
+            // Execute outras ações necessárias, como enviar a newsletter por e-mail
+    
+             return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
+        }
 }

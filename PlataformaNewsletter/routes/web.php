@@ -51,4 +51,4 @@ Route::delete('/assinantes/{id}', [AssinanteController::class, 'destroy'])->name
  
 // Newsletter
 Route::get('/newsletters', [NewsletterController::class, 'index'])->middleware('auth');
-Route::post('/newsletters/create', [NewsletterController::class, 'create'])->middleware('auth');
+Route::post('/newsletters/create', [NewsletterController::class, 'create'])->name('newsletters.create')->middleware('auth');

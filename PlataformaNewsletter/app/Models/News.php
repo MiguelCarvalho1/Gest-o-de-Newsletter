@@ -9,5 +9,9 @@ class News extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function newsletters()
+    {
+        return $this->belongsToMany(Newsletter::class, 'newsletter_news', 'news_id', 'newsletter_id');
+    }
 
 }

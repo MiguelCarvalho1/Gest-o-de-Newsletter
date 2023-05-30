@@ -7,11 +7,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>News</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
@@ -271,27 +271,29 @@ $(document).ready(function(){
 </body>
 <script>
 
-    // Aqui você pode enviar os IDs das notícias selecionadas para o servidor
-        // para processá-los e criar a newsletter.
-        $(document).ready(function() {
-  $('#createNewsletterBtn').click(function() {
-    var selectedNews = [];
-    $('input[type="checkbox"]:checked').each(function() {
-      var newsId = $(this).attr('id').replace('checkbox', '');
-      selectedNews.push(newsId);
+$(document).ready(function() {
+    $('#createNewsletterBtn').click(function() {
+        var selectedNews = [];
+        $('input[type="checkbox"]:checked').each(function() {
+            var newsId = $(this).attr('id').replace('checkbox', '');
+            selectedNews.push(newsId);
+        });
+        
+        $.ajax({
+            url: '/newsletters/create',
+            method: 'POST',
+            data: {
+                newsIds: selectedNews,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert('A newsletter foi criada com sucesso!');
+            },
+            error: function(error) {
+                alert('Ocorreu um erro ao criar a newsletter. Por favor, tente novamente mais tarde.');
+            }
+        });
     });
-    $.ajax({
-      url: '/newsletters/create',
-      method: 'POST',
-      data: { newsIds: selectedNews },
-      success: function(response) {
-        alert('A newsletter foi criada com sucesso!');
-      },
-      error: function(error) {
-        alert('Ocorreu um erro ao criar a newsletter. Por favor, tente novamente mais tarde.');
-      }
-    });
-  });
 });
     </script>
     
