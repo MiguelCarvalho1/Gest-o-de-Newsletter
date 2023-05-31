@@ -39,7 +39,7 @@
                             <div class="card-body">
                               <h5 class="card-title">{{$noticia-> titulo}}</h5>
                               <p class="card-text">>{!! Str::limit($noticia->conteudo, 100) !!}</p>
-                              <a href="#" class="btn btn-primary">Read More</a>
+                              <a href='/show/{{$noticia->id}}' class="btn btn-primary">Read More</a>
                             </div>
                           </div>
                         </div>

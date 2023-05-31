@@ -14,4 +14,9 @@ class News extends Model
         return $this->belongsToMany(Newsletter::class, 'newsletter_news', 'news_id', 'newsletter_id');
     }
 
+    public function image()
+    {
+        return $this->hasMany(Image::class);
+    }
+
 }

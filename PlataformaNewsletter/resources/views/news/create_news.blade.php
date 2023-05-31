@@ -50,8 +50,8 @@
                             <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
                         </div>
                         <div class="form-group">
-                            <label for="media">Media: </label>
-                            <input type="file" class="form-control-file" id="media" name="media" placeholder="Media">
+                            <label for="image">Imagem: </label>
+                            <input type="file"  class="form-control-file" id="image" name="images[]" multiple placeholder="Media">
                         </div>
                         <div class="form-group">
                             <label for="conteudo">Conteúdo: </label>

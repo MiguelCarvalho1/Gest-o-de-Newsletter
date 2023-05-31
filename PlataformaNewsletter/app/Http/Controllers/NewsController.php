@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\Image;
 
 class NewsController extends Controller
 {
@@ -11,6 +12,7 @@ class NewsController extends Controller
     public function index()
 {
     $noticias = News::all();
+    $noticias = News::with('image')->get();
     return view('/news/index', ['noticia' => $noticias]);
 }
 
@@ -18,6 +20,21 @@ public function home(){
     $noticias = News::all(); 
     return view('/home', ['noticia' => $noticias]);
 
+}
+
+public function show($id)
+{
+    $noticia = News::findOrFail($id);
+
+    return view('/news/show_news', compact('noticia'));
+}
+
+
+public function show_home($id)
+{
+    $noticia = News::findOrFail($id);
+
+    return view('/show', compact('noticia'));
 }
     public function create()
 {
@@ -33,19 +50,21 @@ public function store(Request $request)
 
     $noticia->save();
 
-    if($request->hasFile('media') && $request->file('media')->isValid()) {
-
-        $requestMedia = $request->media;
-
-        $extension = $requestMedia->extension();
-
-        $mediaName = md5($requestMedia->getClientOriginalName() . strtotime("now")) . "." . $extension;
-
-        $requestMedia->move(public_path('img/news'), $mediaName);
-
-        $noticia->media = $mediaName;
-
+    if ($request->hasFile('images')) {
+        $images = $request->file('images');
+    
+        foreach ($images as $image) {
+            $path = $image->store('public/images/noticias');
+            $url = str_replace('public/', '', $path);
+    
+            $noticia->imagens()->create([
+                'url' => $url,
+                'nome' => $image->getClientOriginalName(),
+            ]);
+        }
     }
+
+    
 
 
     
@@ -73,23 +92,26 @@ public function store(Request $request)
                 'ativo' => 'required'
             ]);
             
-            if($request->hasFile('media') && $request->file('media')->isValid()) {
-        
-                $requestMedia = $request->media;
-        
-                $extension = $requestMedia->extension();
-        
-                $mediaName = md5($requestMedia->getClientOriginalName() . strtotime("now")) . "." . $extension;
-        
-                $requestMedia->move(public_path('img/news'), $mediaName);
-        
-                $data['media'] = $mediaName;
-        
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+            
+                foreach ($images as $image) {
+                    $path = $image->store('public/images/noticias');
+                    $url = str_replace('public/', '', $path);
+                }
             }
         
             News::findOrFail($id)->update($data);
             return redirect('/news')->with('msg', 'Notícia atualizada com sucesso!');
         }
+
+        public function destroy($id)
+{
+    $noticia = News::findOrFail($id);
+    $noticia->delete();
+
+    return redirect('/news')->with('msg', 'Notícia excluída com sucesso!');
+}
     
 
 }

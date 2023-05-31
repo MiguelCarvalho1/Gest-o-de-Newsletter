@@ -237,11 +237,14 @@ $(document).ready(function(){
                                 <td style="text-align: center; vertical-align: middle">
                                     <input type="checkbox" id="checkbox{{$noticia->id}}">
                                 </td>
-                                <td style="text-align: justify; vertical-align: middle"><a href="/news/editar/{{$noticia->id}}">{{$noticia->titulo}}</td>
+                                <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
                                 <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                 
-                                <td style="text-align: center; vertical-align: middle"><img src="/img/noticia/{{$noticia->media}}" style="width: 75px;"></img></td>
-                                
+                                <td>
+                                    @foreach ($noticia->image as $image)
+                                        <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
+                                    @endforeach
+                                </td>
                                 <td style="text-align: center; vertical-align: middle">
                                     
                                     @if($noticia->ativo == 1)
@@ -251,18 +254,25 @@ $(document).ready(function(){
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width:40px; heigth: 40px; margin:2px">
+                                    <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
                                         <a href="/news/editar/{{$noticia->id}}" style="color:white">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </button>
+                                    <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                                 
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <button id="createNewsletterBtn" class="btn btn-primary">Criar Newsletter</button>
+                    <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
                 </div>
             </div>
         </div>
@@ -270,31 +280,30 @@ $(document).ready(function(){
 </div>     
 </body>
 <script>
-
-$(document).ready(function() {
-    $('#createNewsletterBtn').click(function() {
-        var selectedNews = [];
-        $('input[type="checkbox"]:checked').each(function() {
-            var newsId = $(this).attr('id').replace('checkbox', '');
-            selectedNews.push(newsId);
+    document.getElementById("newsletterForm").addEventListener("click", function(e) {
+        e.preventDefault();
+    
+        // Obter todas as checkboxes selecionadas
+        const checkboxes = document.querySelectorAll("input[name='newsletterCheckbox']:checked");
+        
+        if (checkboxes.length === 0) {
+            alert("Selecione pelo menos uma notícia para criar a newsletter.");
+            return;
+        }
+        
+        // Criar um array para armazenar os IDs das checkboxes selecionadas
+        const selectedNewsIds = [];
+        
+        checkboxes.forEach(function(checkbox) {
+            selectedNewsIds.push(checkbox.value);
         });
         
-        $.ajax({
-            url: '/newsletters/create',
-            method: 'POST',
-            data: {
-                newsIds: selectedNews,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                alert('A newsletter foi criada com sucesso!');
-            },
-            error: function(error) {
-                alert('Ocorreu um erro ao criar a newsletter. Por favor, tente novamente mais tarde.');
-            }
-        });
+        // Criar a newsletter com as notícias selecionadas
+        const newsletterContent = "Newsletter:\n\n" + selectedNewsIds.join("\n");
+        
+        // Exibir a newsletter gerada
+        alert(newsletterContent);
     });
-});
     </script>
     
 </html>
