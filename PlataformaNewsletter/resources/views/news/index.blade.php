@@ -7,11 +7,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>News</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
@@ -237,11 +237,14 @@ $(document).ready(function(){
                                 <td style="text-align: center; vertical-align: middle">
                                     <input type="checkbox" id="checkbox{{$noticia->id}}">
                                 </td>
-                                <td style="text-align: justify; vertical-align: middle"><a href="/news/editar/{{$noticia->id}}">{{$noticia->titulo}}</td>
+                                <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
                                 <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                 
-                                <td style="text-align: center; vertical-align: middle"><img src="/img/noticia/{{$noticia->media}}" style="width: 75px;"></img></td>
-                                
+                                <td>
+                                    @foreach ($noticia->image as $image)
+                                        <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
+                                    @endforeach
+                                </td>
                                 <td style="text-align: center; vertical-align: middle">
                                     
                                     @if($noticia->ativo == 1)
@@ -251,18 +254,25 @@ $(document).ready(function(){
                                     @endif
                                 </td>
                                 <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width:40px; heigth: 40px; margin:2px">
+                                    <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
                                         <a href="/news/editar/{{$noticia->id}}" style="color:white">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </button>
+                                    <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                                 
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <button id="createNewsletterBtn" class="btn btn-primary">Criar Newsletter</button>
+                    <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
                 </div>
             </div>
         </div>
@@ -270,29 +280,30 @@ $(document).ready(function(){
 </div>     
 </body>
 <script>
-
-    // Aqui você pode enviar os IDs das notícias selecionadas para o servidor
-        // para processá-los e criar a newsletter.
-        $(document).ready(function() {
-  $('#createNewsletterBtn').click(function() {
-    var selectedNews = [];
-    $('input[type="checkbox"]:checked').each(function() {
-      var newsId = $(this).attr('id').replace('checkbox', '');
-      selectedNews.push(newsId);
+    document.getElementById("newsletterForm").addEventListener("click", function(e) {
+        e.preventDefault();
+    
+        // Obter todas as checkboxes selecionadas
+        const checkboxes = document.querySelectorAll("input[name='newsletterCheckbox']:checked");
+        
+        if (checkboxes.length === 0) {
+            alert("Selecione pelo menos uma notícia para criar a newsletter.");
+            return;
+        }
+        
+        // Criar um array para armazenar os IDs das checkboxes selecionadas
+        const selectedNewsIds = [];
+        
+        checkboxes.forEach(function(checkbox) {
+            selectedNewsIds.push(checkbox.value);
+        });
+        
+        // Criar a newsletter com as notícias selecionadas
+        const newsletterContent = "Newsletter:\n\n" + selectedNewsIds.join("\n");
+        
+        // Exibir a newsletter gerada
+        alert(newsletterContent);
     });
-    $.ajax({
-      url: '/newsletters/create',
-      method: 'POST',
-      data: { newsIds: selectedNews },
-      success: function(response) {
-        alert('A newsletter foi criada com sucesso!');
-      },
-      error: function(error) {
-        alert('Ocorreu um erro ao criar a newsletter. Por favor, tente novamente mais tarde.');
-      }
-    });
-  });
-});
     </script>
     
 </html>

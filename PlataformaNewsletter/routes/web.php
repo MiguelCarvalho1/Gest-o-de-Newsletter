@@ -37,8 +37,11 @@ Route::middleware([
  Route::post('/news', [NewsController::class, 'store'])->middleware('auth');
  Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
  Route::get('/', [NewsController::class, 'home']);
+ Route::get('/show/{id}', [NewsController::class, 'show_home']);
+ Route::get('/news/show/{id}', [NewsController::class, 'show'])->middleware('auth');
  Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
  Route::post('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');
+ Route::delete('/news/{id}', [NewsController::class, 'destroy'])->middleware('auth');
 
 Route::get('/admin/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
 Route::get('/assinantes_create', [AssinanteController::class, 'create']);
@@ -61,4 +64,4 @@ Route::delete('/assinantes/{id}', [AssinanteController::class, 'destroy'])->name
  
 // Newsletter
 Route::get('/newsletters', [NewsletterController::class, 'index'])->middleware('auth');
-Route::post('/newsletters/create', [NewsletterController::class, 'create'])->middleware('auth');
+Route::post('/newsletters/create', [NewsletterController::class, 'create'])->name('newsletters.create')->middleware('auth');
