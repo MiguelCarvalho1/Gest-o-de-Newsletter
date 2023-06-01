@@ -11,14 +11,16 @@ return new class extends Migration
      *
      * @return void
      */
+
     public function up()
     {
+        Schema::dropIfExists('newsletter_news');
         Schema::create('newsletter_news', function (Blueprint $table) {
             $table->unsignedBigInteger('newsletter_id');
             $table->unsignedBigInteger('news_id');
 
-            $table->foreign('newsletter_id')->references('id')->on('newsletters')->onDelete('cascade');
-            $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
+           $table->foreign('newsletter_id')->references('id')->on('newsletters')->onDelete('cascade');
+           $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
 
             $table->primary(['newsletter_id', 'news_id']);
         });
