@@ -1,3 +1,4 @@
+@extends('layouts.style')
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,36 +15,24 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
-    <header>
-        <!-- Cabeçalho do site -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="{{ url('/dashboard') }}"> <i class="fa-solid fa-newspaper"></i> Newslletter</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news') }}">News</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/newsletters') }}">Newslletter</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+  <h1>Criar Notícia</h1>
+  <div class="sidebar">
+    <ul>
+        <li><a href="{{ url('/dashboard') }}"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="{{ url('/news/create') }}"><i class="fa fa-pencil"></i> Create news</a></li>
+        <li><a href="{{ url('/newsletters') }}"><i class="fa fa-envelope"></i> Newsletter</a></li>
+        <li><a href="{{ url('/newsletters/create') }}"><i class="fa fa-plus"></i> Create Newsletter</a></li>
+    </ul>
+</div>
+    
     <div>
-    <h1>Criar Notícia</h1>
+    
 </div>
     <div class="container">
         <div class="row">
             <div class="col-md-7 offset-3 mt-4">
                 <div class="card-body">
-                    <form action="/news" method="POST">
+                    <form action="/news" method="POST"  enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="titulo">Título: </label>
