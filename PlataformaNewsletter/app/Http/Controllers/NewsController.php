@@ -12,7 +12,7 @@ class NewsController extends Controller
     public function index()
 {
     $noticias = News::all();
-    $noticias = News::with('image')->get();
+    $noticias = News::with('images')->get();
     return view('/news/index', ['noticia' => $noticias]);
 }
 
@@ -57,13 +57,12 @@ public function store(Request $request)
             $path = $image->store('public/images/noticias');
             $url = str_replace('public/', '', $path);
     
-            $noticia->imagens()->create([
+            $noticia->images()->create([
                 'url' => $url,
                 'nome' => $image->getClientOriginalName(),
             ]);
         }
     }
-
     
 
 

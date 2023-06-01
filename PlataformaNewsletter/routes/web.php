@@ -59,7 +59,7 @@ Route::delete('/admin/assinante/{id}', [AssinanteController::class, 'destroy'])-
 
 
 
-//Route::post('/home', 'AssinanteController@subscribe')->name('assinantes_create.subscribe');
+
 
 
  

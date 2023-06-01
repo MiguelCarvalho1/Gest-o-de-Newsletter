@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Newsletter;
 use App\Models\News;
+use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Http\Request;
@@ -25,8 +26,8 @@ class NewsletterController extends Controller
         public function create(Request $request)
         {
             $newsIds = $request->input('newsIds');
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $title = $request->input('titulo');
+        $content = $request->input('conteudo');
 
         // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
         $newsletter = new Newsletter();
@@ -34,13 +35,20 @@ class NewsletterController extends Controller
         $newsletter->content = $content;
         
 
-            $newsIds = $request->input('newsIds');
-            
-            // Crie a newsletter com base nos IDs das notícias selecionadas
+    
+        // Buscar os registros da tabela de junção para os IDs selecionados
+        $newsletterItems = DB::table('newsletter_news')
+            ->whereIn('news_id', $newsIds)
+            ->get();
+        
+        // Obter os dados das notícias correspondentes
+        $news = [];
+        foreach ($newsletterItems as $item) {
+            $news[] = News::find($item->noticia_id);
+        }
            
            
             $newsletter->save();
-            dd($newsletter);
     
             // Vincule as notícias selecionadas à newsletter
             $newsletter->news()->attach($newsIds);

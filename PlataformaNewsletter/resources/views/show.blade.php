@@ -184,9 +184,11 @@ $(document).ready(function(){
       
       
 
-      @foreach ($noticia->image as $image)
-          <img src="{{ asset('storage/' . $imagem->url) }}" alt="{{ $imagem->nome }}" width="100">
-      @endforeach
+      @if ($noticia->images)
+            @foreach ($noticia->images as $image)
+                <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
+            @endforeach
+        @endif
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 

@@ -1,5 +1,4 @@
-
-
+@extends('layouts.style')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,166 +13,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<style>
-body {
-    color: #566787;
-    background: #f5f5f5;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 13px;
-}
-.table-responsive {
-    margin: 30px 0;
-}
-.table-wrapper {
-    min-width: 1000px;
-    background: #fff;
-    padding: 20px 25px;
-    border-radius: 3px;
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.table-title {
-    padding-bottom: 15px;
-    color: #fff;
-    padding: 16px 30px;
-    margin: -20px -25px 10px;
-    border-radius: 3px 3px 0 0;
-}
-.table-title h2 {
-    margin: 5px 0 0;
-    font-size: 24px;
-}
-.table-title .btn {
-    color: #566787;
-    float: right;
-    font-size: 13px;
-    background: #fff;
-    border: none;
-    min-width: 50px;
-    border-radius: 2px;
-    border: none;
-    outline: none !important;
-    margin-left: 10px;
-}
-.table-title .btn:hover, .table-title .btn:focus {
-    color: #566787;
-    background: #f2f2f2;
-}
-.table-title .btn i {
-    float: left;
-    font-size: 21px;
-    margin-right: 5px;
-}
-.table-title .btn span {
-    float: left;
-    margin-top: 2px;
-}
-table.table tr th, table.table tr td {
-    border-color: #e9e9e9;
-    padding: 12px 15px;
-    vertical-align: middle;
-}
-table.table tr th:first-child {
-    width: 60px;
-}
-table.table tr th:last-child {
-    width: 100px;
-}
-table.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #fcfcfc;
-}
-table.table-striped.table-hover tbody tr:hover {
-    background: #f5f5f5;
-}
-table.table th i {
-    font-size: 13px;
-    margin: 0 5px;
-    cursor: pointer;
-}	
-table.table td:last-child i {
-    opacity: 0.9;
-    font-size: 22px;
-    margin: 0 5px;
-}
-table.table td a {
-    font-weight: bold;
-    color: #566787;
-    display: inline-block;
-    text-decoration: none;
-}
-table.table td a:hover {
-    color: #2196F3;
-}
-table.table td a.settings {
-    color: #2196F3;
-}
-table.table td a.delete {
-    color: #F44336;
-}
-table.table td i {
-    font-size: 19px;
-}
-table.table .avatar {
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-.status {
-    font-size: 30px;
-    margin: 2px 2px 0 0;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 10px;
-}
-.text-success {
-    color: #10c469;
-}
-.text-info {
-    color: #62c9e8;
-}
-.text-warning {
-    color: #FFC107;
-}
-.text-danger {
-    color: #ff5b5b;
-}
-.pagination {
-    float: right;
-    margin: 0 0 5px;
-}
-.pagination li a {
-    border: none;
-    font-size: 13px;
-    min-width: 30px;
-    min-height: 30px;
-    color: #999;
-    margin: 0 2px;
-    line-height: 30px;
-    border-radius: 2px !important;
-    text-align: center;
-    padding: 0 6px;
-}
-.pagination li a:hover {
-    color: #666;
-}	
-.pagination li.active a, .pagination li.active a.page-link {
-    background: #03A9F4;
-}
-.pagination li.active a:hover {        
-    background: #0397d6;
-}
-.pagination li.disabled i {
-    color: #ccc;
-}
-.pagination li i {
-    font-size: 16px;
-    padding-top: 6px
-}
-.hint-text {
-    float: left;
-    margin-top: 10px;
-    font-size: 13px;
-}
-</style>
 <script>
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
@@ -182,128 +21,111 @@ $(document).ready(function(){
 </head>
 <body>
     <header>
-        <!-- Cabeçalho do site -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/newsletters') }}">Newslletter</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/newsletters/create') }}"> Create Newslletter</a>
-              </li>
+        <div class="sidebar">
+            <ul>
+                <li><a href="{{ url('/dashboard') }}"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="{{ url('/news/create') }}"><i class="fa fa-pencil"></i> Create news</a></li>
+                <li><a href="{{ url('/newsletters') }}"><i class="fa fa-envelope"></i> Newsletter</a></li>
+                <li><a href="{{ url('/newsletters/create') }}"><i class="fa fa-plus"></i> Create Newsletter</a></li>
             </ul>
-          </div>
-        </nav>
+        </div>
       </header>
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8">
+      <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                        </div>
                     </div>
-                    
                 </div>
-            </div>
-            <h1>Notícias</h1>
-            <div class="card-body">
-                <br>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
-                        <thead style="text-align: center;">
-                            <tr>
-                                <th>Selecionar</th>
-                                <th>Titulo</th>
-                                <th>Conteúdo</th>
-                                <th>Media</th>
-                                <th>Ativo</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($noticia as $noticia)
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <input type="checkbox" id="checkbox{{$noticia->id}}">
-                                </td>
-                                <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
-                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
-                                
-                                <td>
-                                    @foreach ($noticia->image as $image)
-                                        <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
-                                    @endforeach
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
+                <h1>Notícias</h1>
+                <div class="card-body">
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
+                            <thead style="text-align: center;">
+                                <tr>
+                                    <th>Selecionar</th>
+                                    <th>Titulo</th>
+                                    <th>Conteúdo</th>
+                                    <th>Media</th>
+                                    <th>Ativo</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($noticia as $noticia)
+                                <tr>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <input type="checkbox" name="newsletterCheckbox" value="{{$noticia->id}}">
+                                    </td>
+                                    <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
+                                    <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                     
-                                    @if($noticia->ativo == 1)
-                                    <b type="radio"  class="text-center" style="color: green; ">Sim</b>
-                                    @else
-                                    <b  type="radio"  style="color: red; text-aling: center;">Não</b>
+                                    <td>
+                                        @if ($noticia->images)
+                                        @foreach ($noticia->images as $image)
+                                            <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
+                                        @endforeach
                                     @endif
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
-                                        <a href="/news/editar/{{$noticia->id}}" style="color:white">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </button>
-                                    <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
-                                            <i class="fa fa-trash"></i>
+                                    </td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        @if($noticia->ativo == 1)
+                                        <b type="radio"  class="text-center" style="color: green; ">Sim</b>
+                                        @else
+                                        <b  type="radio"  style="color: red; text-aling: center;">Não</b>
+                                        @endif
+                                    </td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
+                                            <a href="/news/editar/{{$noticia->id}}" style="color:white">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
                                         </button>
-                                    </form>
-                                </td>
-                                
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
+                                        <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>     
-</body>
-<script>
+    </body>
+    <script>
     document.getElementById("newsletterForm").addEventListener("click", function(e) {
         e.preventDefault();
     
         // Obter todas as checkboxes selecionadas
         const checkboxes = document.querySelectorAll("input[name='newsletterCheckbox']:checked");
-        
+    
         if (checkboxes.length === 0) {
             alert("Selecione pelo menos uma notícia para criar a newsletter.");
             return;
         }
-        
+    
         // Criar um array para armazenar os IDs das checkboxes selecionadas
         const selectedNewsIds = [];
-        
+    
         checkboxes.forEach(function(checkbox) {
             selectedNewsIds.push(checkbox.value);
         });
-        
-        // Criar a newsletter com as notícias selecionadas
-        const newsletterContent = "Newsletter:\n\n" + selectedNewsIds.join("\n");
-        
-        // Exibir a newsletter gerada
-        alert(newsletterContent);
+    
+        // Redirecionar para a página de criação de newsletter com os IDs das notícias como parâmetros na URL
+        const newsletterCreateURL = "/newsletters/create";
+        window.location.href = newsletterCreateURL;
     });
     </script>
+    
     
 </html>
