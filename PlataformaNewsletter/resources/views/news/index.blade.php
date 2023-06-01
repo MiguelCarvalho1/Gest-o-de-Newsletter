@@ -206,104 +206,100 @@ $(document).ready(function(){
           </div>
         </nav>
       </header>
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8">
+      <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                        </div>
                     </div>
-                    
                 </div>
-            </div>
-            <h1>Notícias</h1>
-            <div class="card-body">
-                <br>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
-                        <thead style="text-align: center;">
-                            <tr>
-                                <th>Selecionar</th>
-                                <th>Titulo</th>
-                                <th>Conteúdo</th>
-                                <th>Media</th>
-                                <th>Ativo</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($noticia as $noticia)
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <input type="checkbox" id="checkbox{{$noticia->id}}">
-                                </td>
-                                <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
-                                <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
-                                
-                                <td>
-                                    @foreach ($noticia->image as $image)
-                                        <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
-                                    @endforeach
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
+                <h1>Notícias</h1>
+                <div class="card-body">
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
+                            <thead style="text-align: center;">
+                                <tr>
+                                    <th>Selecionar</th>
+                                    <th>Titulo</th>
+                                    <th>Conteúdo</th>
+                                    <th>Media</th>
+                                    <th>Ativo</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($noticia as $noticia)
+                                <tr>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <input type="checkbox" name="newsletterCheckbox" value="{{$noticia->id}}">
+                                    </td>
+                                    <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
+                                    <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                     
-                                    @if($noticia->ativo == 1)
-                                    <b type="radio"  class="text-center" style="color: green; ">Sim</b>
-                                    @else
-                                    <b  type="radio"  style="color: red; text-aling: center;">Não</b>
-                                    @endif
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
-                                        <a href="/news/editar/{{$noticia->id}}" style="color:white">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </button>
-                                    <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
-                                            <i class="fa fa-trash"></i>
+                                    <td>
+                                        @foreach ($noticia->image as $image)
+                                            <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
+                                        @endforeach
+                                    </td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        @if($noticia->ativo == 1)
+                                        <b type="radio"  class="text-center" style="color: green; ">Sim</b>
+                                        @else
+                                        <b  type="radio"  style="color: red; text-aling: center;">Não</b>
+                                        @endif
+                                    </td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <button class="btn bg-warning text-white" style="width: 40px; height: 40px; margin: 2px">
+                                            <a href="/news/editar/{{$noticia->id}}" style="color:white">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
                                         </button>
-                                    </form>
-                                </td>
-                                
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
+                                        <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button id="newsletterForm" class="btn btn-primary">Criar Newsletter</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>     
-</body>
-<script>
+    </body>
+    <script>
     document.getElementById("newsletterForm").addEventListener("click", function(e) {
         e.preventDefault();
     
         // Obter todas as checkboxes selecionadas
         const checkboxes = document.querySelectorAll("input[name='newsletterCheckbox']:checked");
-        
+    
         if (checkboxes.length === 0) {
             alert("Selecione pelo menos uma notícia para criar a newsletter.");
             return;
         }
-        
+    
         // Criar um array para armazenar os IDs das checkboxes selecionadas
         const selectedNewsIds = [];
-        
+    
         checkboxes.forEach(function(checkbox) {
             selectedNewsIds.push(checkbox.value);
         });
-        
-        // Criar a newsletter com as notícias selecionadas
-        const newsletterContent = "Newsletter:\n\n" + selectedNewsIds.join("\n");
-        
-        // Exibir a newsletter gerada
-        alert(newsletterContent);
+    
+        // Redirecionar para a página de criação de newsletter com os IDs das notícias como parâmetros na URL
+        const newsletterCreateURL = "/newsletters/create";
+        window.location.href = newsletterCreateURL;
     });
     </script>
+    
     
 </html>

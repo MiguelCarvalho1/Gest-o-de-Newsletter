@@ -40,6 +40,38 @@
     <h1>Criar Newslletter</h1>
 </div>
 </body>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Criar Newsletter</h1>
+    
+    <form action="/newsletters" method="POST">
+      @csrf
+      <div class="form-group">
+          <label for="title">Título da Newsletter:</label>
+          <input type="text" name="title" id="title" class="form-control" required>
+      </div>
+      <div class="form-group">
+          <label for="content">Conteúdo da Newsletter:</label>
+          <textarea name="content" id="content" class="form-control" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+          <label>Notícias Selecionadas:</label>
+          <div class="checkbox-list">
+              @foreach($selectedNews as $news)
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="selectedNewsIds[]" value="{{ $news->id }}" checked>
+                  <label class="form-check-label">{{ $news->title }}</label>
+              </div>
+              @endforeach
+          </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Criar Newsletter</button>
+  </form>
+  
+</div>
+
 
 
 
