@@ -224,13 +224,31 @@ $(document).ready(function(){
                             <tr>
                                 <th>Nome</th>
                                 <th>Email</th>
-                                <th>Localidade</th>
-                                <th>Codigo Postal</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                              <!-- Foreach para mostrar os assinantes e poder editar ou eliminar -->
+                             @foreach ($assinantes as $assinante)
+            <tr>
+                <td>{{ $assinante->nome }}</td>
+                <td>{{ $assinante->email }}</td>
+                <td>
+                        <!-- Checkbox com o ID do assinante -->
+                        <input type="checkbox" name="assinante[]" value="{{ $assinante->id }}">
+                         <!-- delete -->
+                         
+                         <form action="/admin/assinante/{{$assinante->id}}" method="POST" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+
+                    </td>
+            </tr>
+            @endforeach
                         </tbody>
                     </table>
                 </div>

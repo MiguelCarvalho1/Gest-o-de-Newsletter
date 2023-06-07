@@ -11,8 +11,10 @@ class Assinante extends Model
 
     protected $fillable = ['nome', 'email', 'id_codiPostal'];
 
-    public function codiPostal()
+    public function postalCode()
     {
         return $this->belongsTo(CodiPostal::class, 'id_codiPostal');
     }
+
+    
 }

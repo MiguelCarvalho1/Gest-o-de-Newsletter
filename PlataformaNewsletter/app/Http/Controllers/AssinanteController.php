@@ -5,13 +5,16 @@ use App\Models\Assinante;
 use App\Models\CodiPostal;
 use Illuminate\Http\Request;
 
+
 class AssinanteController extends Controller
 {
     public function index()
     {
         // Retorna todos os assinantes
         $assinantes = Assinante::all();
-        return view('assinantes.index', compact('assinantes'));
+        return view('/admin/assinante', compact('assinantes'));
+
+       
     }
 
   
@@ -24,11 +27,16 @@ class AssinanteController extends Controller
     }
 
 
+
     public function create()
     {
         // Retorna a página de exibição de um assinante específico
         
-        return view('assinante_create');
+        $concelhos = CodiPostal::all();
+        return view('assinante_create', compact('concelhos'));
+
+        $pais = Pais::all();
+        return view('assinante_create', compact('pais'));
     }
    /* public function edit($id)
     {
@@ -81,7 +89,7 @@ class AssinanteController extends Controller
 
 
         $postalCode = CodiPostal::create([
-            'id_codiPostal'=> "1",
+        
             'codiPostal' => $request->codiPostal,
             'localidade' => $request->localidade,
             'pais' => $request->pais,
@@ -91,14 +99,16 @@ class AssinanteController extends Controller
 
 
         ]);
-    
+
+        $codigopostalId = $postalCode->id;
       
 
         $subscriber = Assinante::create([
             
             'nome' => $request->nome,
             'email' => $request->email,
-            'id_codiPostal'=> "1",
+            'id_codiPostal' => $codigopostalId
+    
         ]);
 
         $subscriber->postalCode()->associate($postalCode);
@@ -107,6 +117,16 @@ class AssinanteController extends Controller
         // Faça qualquer outra ação necessária aqui, como exibir uma mensagem de sucesso
         $request->session()->flash('success', 'Subscrito com sucesso!');
        
-        return redirect('/assinantes')->back();
+    
+
     }
+
+    public function destroy($id)
+    {
+        $noticia = Assinante::findOrFail($id);
+        $noticia->delete();
+    
+        return redirect('/admin/assinante')->with('msg', 'Assinante excluído com sucesso!');
+    }
+
 }

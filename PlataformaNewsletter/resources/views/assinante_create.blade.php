@@ -68,12 +68,15 @@
             </div>
             <div class="form-group">
                 <label for="concelho">Concelho</label>
-                <select name="concelho" id="concelho">
-                    @foreach($concelhos as $concelho)
-                        <option value="{{ $concelho->id }}">{{ $concelho->concelho }}</option>
-                    @endforeach
-                </select>
+               <input type="text" value="" maxlength="70" name="concelho" id="concelho">
+            
             </div>
+            <div class="form-group">
+                <label for="pais">Pais</label>
+               <input type="text" value="" maxlength="70" name="pais" id="pais">
+            
+            </div>
+
             <div class="form-group">
                 <label for="codiPostal">Código Postal</label>
                 <input type="text" value="" maxlength="10" name="codiPostal" id="codiPostal">
