@@ -46,6 +46,9 @@ Route::middleware([
 Route::get('/admin/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
 Route::get('/assinantes_create', [AssinanteController::class, 'create']);
 
+//rota assinantes pagina inicial
+Route::get('/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
+
 
 Route::post('/assinantes_create', [AssinanteController::class, 'store']);
 

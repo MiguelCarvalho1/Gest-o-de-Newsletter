@@ -241,9 +241,19 @@ $(document).ready(function(){
                          <form action="/admin/assinante/{{$assinante->id}}" method="POST" style="display: inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
+                                        <button ttype="submit" id="submitBtn" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
                                             <i class="fa fa-trash"></i>
                                         </button>
+                                        <script>
+                                    // Selecione o botão pelo ID
+                                     var submitBtn = document.getElementById('submitBtn');
+
+                                        // Adicione um ouvinte de evento de clique ao botão
+                                        submitBtn.addEventListener('click', function() {
+                                         // Exiba a mensagem "Inscrito com sucesso"
+                                        alert('apagado com sucesso');
+                                         });
+                                            </script>
                                     </form>
 
                     </td>
