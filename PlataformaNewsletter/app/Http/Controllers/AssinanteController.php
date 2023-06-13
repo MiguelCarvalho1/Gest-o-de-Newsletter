@@ -134,4 +134,22 @@ class AssinanteController extends Controller
         return redirect('/admin/assinante')->with('msg', 'Assinante excluído com sucesso!');
     }
 
+    public function remover(Request $request)
+    {
+        $assinanteIds = json_decode($request->input('assinantes'));
+    
+        // Execute a lógica para remover os assinantes com base nos IDs recebidos
+    
+        // Exemplo de lógica de remoção
+        foreach ($assinanteIds as $assinanteId) {
+            $assinante = Assinante::find($assinanteId);
+            if ($assinante) {
+                $assinante->delete();
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Assinantes removidos com sucesso');
+    }
+    
+
 }

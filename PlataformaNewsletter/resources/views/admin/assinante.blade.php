@@ -20,6 +20,14 @@ body {
     font-family: 'Varela Round', sans-serif;
     font-size: 13px;
 }
+
+table.table td, table.table th {
+  border: none;
+}
+
+table.table td, table.table th {
+  border-bottom: 2px solid #e9e9e9;
+}
 .table-responsive {
     margin: 30px 0;
 }
@@ -183,88 +191,104 @@ $(document).ready(function(){
     <header>
         <!-- Cabeçalho do site -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news') }}">News</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                    </div>
-                    
-                </div>
+            <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news') }}">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('#') }}">Newslletter</a>
+                    </li>
+                </ul>
             </div>
-            <h1>Assinantes</h1>
-            <div class="card-body">
-                <br>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead style="text-align: center;">
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                             <!-- Foreach para mostrar os assinantes e poder editar ou eliminar -->
-                             @foreach ($assinantes as $assinante)
-            <tr>
-                <td>{{ $assinante->nome }}</td>
-                <td>{{ $assinante->email }}</td>
-                <td>
-                        <!-- Checkbox com o ID do assinante -->
-                        <input type="checkbox" name="assinante[]" value="{{ $assinante->id }}">
-                         <!-- delete -->
-                         
-                         <form action="/admin/assinante/{{$assinante->id}}" method="POST" style="display: inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button ttype="submit" id="submitBtn" class="btn bg-danger text-white" style="width: 40px; height: 40px; margin: 2px">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                        <script>
-                                    // Selecione o botão pelo ID
-                                     var submitBtn = document.getElementById('submitBtn');
+        </nav>
+    </header>
 
-                                        // Adicione um ouvinte de evento de clique ao botão
-                                        submitBtn.addEventListener('click', function() {
-                                         // Exiba a mensagem "Inscrito com sucesso"
-                                        alert('apagado com sucesso');
-                                         });
-                                            </script>
-                                    </form>
-
-                    </td>
-            </tr>
-            @endforeach
-                        </tbody>
-                    </table>
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-5"></div>
+                    </div>
                 </div>
+                <h1>Assinantes</h1>
+                <div class="card-body">
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead style="text-align: center;">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <table>
+    <tbody>
+        <!-- Foreach para mostrar os assinantes e poder editar ou eliminar -->
+        @foreach ($assinantes as $assinante)
+        <tr>
+            <td>{{ $assinante->nome }}</td>
+            <td>{{ $assinante->email }}</td>
+            <td>
+                <!-- Checkbox com o ID do assinante -->
+                <input type="checkbox" name="assinante[]" value="{{ $assinante->id }}">
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+            </table>
+                     <form id="removerForm" method="POST" style="display: inline">
+    @csrf
+    @method('DELETE')
+    <input type="hidden" id="assinantesInput" name="assinantes" value="">
+    <button id="removeBtn" type="button" class="btn bg-danger text-white" style="width: 100px; height: 40px; margin-top: 10px;">
+        Remover
+            </button>
+            </form>
+
+
+<script>
+    var removeBtn = document.getElementById('removeBtn');
+    var removerForm = document.getElementById('removerForm');
+    var assinantesInput = document.getElementById('assinantesInput');
+
+    removeBtn.addEventListener('click', function () {
+        var checkboxes = document.querySelectorAll('input[name="assinante[]"]:checked');
+
+        if (checkboxes.length > 0) {
+            if (confirm('Tem certeza de que deseja remover os assinantes selecionados?')) {
+                var assinanteIds = Array.from(checkboxes).map(function (checkbox) {
+                    return checkbox.value;
+                });
+
+                assinantesInput.value = JSON.stringify(assinanteIds);
+
+                removerForm.submit();
+            }
+        } else {
+            alert('Selecione pelo menos um assinante para remover');
+        }
+    });
+</script>
+
             </div>
         </div>
     </div>
-</div>     
-</body>
+</div>
+
+
+
+
 </html>

@@ -45,6 +45,9 @@ Route::middleware([
 
 Route::get('/admin/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
 Route::get('/assinantes_create', [AssinanteController::class, 'create']);
+;
+
+
 
 //rota assinantes pagina inicial
 Route::get('/assinantes', [AssinanteController::class, 'index'])->name('assinantes.index');
@@ -59,6 +62,7 @@ Route::get('/assinantes/{id}/edit', [AssinanteController::class, 'edit'])->name(
 Route::put('/assinantes/{id}', [AssinanteController::class, 'update'])->name('assinantes.update');
 
 Route::delete('/admin/assinante/{id}', [AssinanteController::class, 'destroy'])->middleware('auth');
+Route::delete('/admin/assinante', [AssinanteController::class, 'remover'])->middleware('auth');
 
 
 
