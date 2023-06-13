@@ -36,6 +36,7 @@ Route::middleware([
  Route::get('/news/create',[NewsController::class, 'create'] )->middleware('auth');
  Route::post('/news', [NewsController::class, 'store'])->middleware('auth');
  Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
+ Route::post('/news/select', [NewsController::class, 'select'])->middleware('auth');
  Route::get('/', [NewsController::class, 'home']);
  Route::get('/show/{id}', [NewsController::class, 'show_home']);
  Route::get('/news/show/{id}', [NewsController::class, 'show'])->middleware('auth');

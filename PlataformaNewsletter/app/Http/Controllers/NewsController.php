@@ -15,6 +15,12 @@ class NewsController extends Controller
     $noticias = News::with('images')->get();
     return view('/news/index', ['noticia' => $noticias]);
 }
+public function select()
+{
+    $noticias = News::all();
+    
+    return view('news/select_news', ['noticia' => $noticias]);
+}
 
 public function home(){
     $noticias = News::all(); 
@@ -25,7 +31,6 @@ public function home(){
 public function show($id)
 {
     $noticia = News::findOrFail($id);
-
     return view('/news/show_news', compact('noticia'));
 }
 
@@ -33,7 +38,7 @@ public function show($id)
 public function show_home($id)
 {
     $noticia = News::findOrFail($id);
-
+    
     return view('/show', compact('noticia'));
 }
     public function create()
@@ -54,13 +59,16 @@ public function store(Request $request)
         $images = $request->file('images');
     
         foreach ($images as $image) {
-            $path = $image->store('public/images/noticias');
-            $url = str_replace('public/', '', $path);
+            $extension = $image->getClientOriginalExtension(); // Obtém a extensão do arquivo original
+            $filename = time() . '_' . uniqid() . '.' . $extension; // Gera um nome de arquivo único
+            $path = $image->move(public_path('images/noticias'), $filename);
+            $url = 'images/noticias/' . $filename;
+
+            $imageModel = new Image();
+            $imageModel->url = $url;
+            $imageModel->nome = $image->getClientOriginalName();
     
-            $noticia->images()->create([
-                'url' => $url,
-                'nome' => $image->getClientOriginalName(),
-            ]);
+            $noticia->images()->save($imageModel);
         }
     }
     
@@ -95,8 +103,14 @@ public function store(Request $request)
                 $images = $request->file('images');
             
                 foreach ($images as $image) {
-                    $path = $image->store('public/images/noticias');
-                    $url = str_replace('public/', '', $path);
+                    $extension = $image->getClientOriginalExtension(); // Obtém a extensão do arquivo original
+                    $filename = time() . '_' . uniqid() . '.' . $extension; // Gera um nome de arquivo único
+                    $path = $image->move(public_path('images/noticias'), $filename);
+                    $url = 'images/noticias/' . $filename;
+        
+                    $imageModel = new Image();
+                    $imageModel->url = $url;
+            
                 }
             }
         

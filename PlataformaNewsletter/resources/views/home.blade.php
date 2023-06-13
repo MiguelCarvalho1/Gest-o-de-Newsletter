@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Gestão de Newslletter</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -35,11 +42,11 @@
                       <div class="row">
                         <div class="col-md-8">
                           <div class="card mb-4">
-                            <img src="/img/noticia/{{$noticia->media}}" class="card-img-top" >
+                            <img src="{{ asset($noticia->images()->first()->url) }}" width="720" class="card-img-top" >
                             <div class="card-body">
                               <h5 class="card-title">{{$noticia-> titulo}}</h5>
-                              <p class="card-text">>{!! Str::limit($noticia->conteudo, 100) !!}</p>
-                              <a href='/show/{{$noticia->id}}' class="btn btn-primary">Read More</a>
+                              <p class="card-text">{!! Str::limit($noticia->conteudo, 100) !!}</p>
+                              <a href="/show/{{$noticia->id}}" class="btn btn-primary">Read More</a>
                             </div>
                           </div>
                         </div>

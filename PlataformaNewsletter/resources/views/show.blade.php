@@ -179,16 +179,35 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-      <h1>{{ $noticia->titulo }}</h1>
-      <p>{!! ($noticia->conteudo) !!}</p>
-      
-      
-
-      @if ($noticia->images)
-            @foreach ($noticia->images as $image)
-                <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $image->nome }}" width="100">
-            @endforeach
-        @endif
+    <div class="content">
+        <h1>{{ $noticia->titulo }}</h1>
+        @if($noticia->images()->count() > 0)
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                @foreach($noticia->images as $key => $image)
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key }}" class="{{ $loop->first ? 'active' : '' }}"></li>
+                @endforeach
+            </ol>
+            <div class="carousel-inner">
+                @foreach($noticia->images as $key => $image)
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                        <img src="{{ asset($image->url) }}" class="d-block w-75" alt="Imagem {{ $key }}">
+                    </div>
+                @endforeach
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+            </a>
+        </div>
+    @endif
+        <p>{!! ($noticia->conteudo) !!}</p>
+       
+    </div>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 
