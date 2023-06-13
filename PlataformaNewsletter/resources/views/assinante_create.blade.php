@@ -50,42 +50,77 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Inscreva-se</h2>
-        <form action="/assinantes" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="email">Email: <span class="asterisk">*</span></label>
-                <input type="email" value="" name="email" id="email" required>
-            </div>
-            <div class="form-group">
-                <label for="nome">Nome:</label>
-                <input type="text" value="" name="nome" id="nome">
-            </div>
-            <div class="form-group">
-                <label for="localidade">Endereço:</label>
-                <input type="text" value="" maxlength="70" name="localidade" id="localidade">
-            </div>
-            <div class="form-group">
-                <label for="concelho">Concelho</label>
-               <input type="text" value="" maxlength="70" name="concelho" id="concelho">
-            
-            </div>
-            <div class="form-group">
-                <label for="pais">Pais</label>
-               <input type="text" value="" maxlength="70" name="pais" id="pais">
-            
-            </div>
+<div class="container">
+    <h2>Inscreva-se</h2>
+    <form action="/" method="POST" id="subscriptionForm">
+        @csrf
+        <div class="form-group">
+            <label for="email">Email: <span class="asterisk">*</span></label>
+            <input type="email" value="" name="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" value="" name="nome" id="nome">
+        </div>
+        <div class="form-group">
+            <label for="localidade">Endereço:</label>
+            <input type="text" value="" maxlength="70" name="localidade" id="localidade">
+        </div>
+        <div class="form-group">
+            <label for="concelho">Concelho</label>
+           <input type="text" value="" maxlength="70" name="concelho" id="concelho">
+        
+        </div>
+        <div class="form-group">
+            <label for="pais">Pais</label>
+           <input type="text" value="" maxlength="70" name="pais" id="pais">
+        
+        </div>
+        <div class="form-group">
+            <label for="codiPostal">Código Postal</label>
+            <input type="text" value="" maxlength="10" name="codiPostal" id="codiPostal">
+        </div>
+        <div class="form-group">
+            <input type="submit" id="submitBtn" value="Subscribe" class="submit-btn">
+        </div>
+    </form>
+</div>
 
-            <div class="form-group">
-                <label for="codiPostal">Código Postal</label>
-                <input type="text" value="" maxlength="10" name="codiPostal" id="codiPostal">
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Subscribe" class="submit-btn">
-            </div>
-        </form>
-    </div>
+<script>
+    document.getElementById('subscriptionForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impedir o envio padrão do formulário
+        
+        // Capturar os valores do formulário
+        var formData = new FormData(this);
+        
+        // Enviar uma requisição AJAX para o controlador responsável pelo processamento
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/assinantes'); // Substitua pelo URL do seu controlador
+        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}'); // Substitua se necessário
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Exibir a mensagem de sucesso
+                var successMessage = document.createElement('div');
+                successMessage.innerHTML = 'Inscrito com sucesso!';
+                successMessage.style.color = 'green';
+                successMessage.style.marginTop = '10px';
+                
+                var container = document.getElementsByClassName('container')[0];
+                container.appendChild(successMessage);
+
+                // Redirecionar para a página inicial após um atraso
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 2000); // Redirecionar após 3 segundos (ajuste conforme necessário)
+            }
+        };
+        
+        xhr.send(formData);
+    });
+</script>
+
+
 </body>
 </html>
 

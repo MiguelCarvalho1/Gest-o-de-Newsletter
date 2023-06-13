@@ -26,12 +26,17 @@ class AssinanteController extends Controller
         return view('assinantes.show', compact('assinante'));
     }
 
-
+    public function redirecionarParaPaginaInicial()
+    {
+        // Realizar as ações necessárias aqui
+        
+        // Redirecionar para a página inicial
+        return redirect('/');
+    }
 
     public function create()
     {
-        // Retorna a página de exibição de um assinante específico
-        
+      
         $concelhos = CodiPostal::all();
         return view('assinante_create', compact('concelhos'));
 
