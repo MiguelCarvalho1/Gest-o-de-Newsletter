@@ -223,40 +223,48 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <h1>Assinantes</h1>
-                <div class="card-body">
-                    <br>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead style="text-align: center;">
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <table>
-    <tbody>
-        <!-- Foreach para mostrar os assinantes e poder editar ou eliminar -->
-        @foreach ($assinantes as $assinante)
-        <tr>
-            <td>{{ $assinante->nome }}</td>
-            <td>{{ $assinante->email }}</td>
-            <td>
-                <!-- Checkbox com o ID do assinante -->
-                <input type="checkbox" name="assinante[]" value="{{ $assinante->id }}">
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-            </table>
-                     <form id="removerForm" method="POST" style="display: inline">
+<div class="card-body">
+    <br>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead style="text-align: center;">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Foreach para mostrar os assinantes e poder editar ou eliminar -->
+                @foreach ($assinantes as $assinante)
+                <tr>
+                    <td>{{ $assinante->nome }}</td>
+                    <td>{{ $assinante->email }}</td>
+                    <td>
+                        <!-- Checkbox com o ID do assinante -->
+                        <input type="checkbox" name="assinante[]" value="{{ $assinante->id }}">
+                        <!-- delete -->
+                      
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form id="removerForm" method="POST" style="display: inline">
     @csrf
     @method('DELETE')
     <input type="hidden" id="assinantesInput" name="assinantes" value="">
-    <button id="removeBtn" type="button" class="btn bg-danger text-white" style="width: 100px; height: 40px; margin-top: 10px;">
+    <button id="removeBtn" class="btn bg-danger text-white" style="width: 100px; height: 40px; margin-top: 10px;">
         Remover
-            </button>
-            </form>
+    </button>
+</form>
+
+
+
+
 
 
 <script>
