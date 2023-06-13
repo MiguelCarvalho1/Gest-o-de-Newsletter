@@ -40,34 +40,30 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <h1>Notícias</h1>
+                <form id="newsletterForm" action="/newsletters/create"  method="POST">
+                    @csrf
                 <div class="card-body">
                     <br>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
                             <thead style="text-align: center;">
                                 <tr>
+                                    <th>Selecionar</th>
                                     <th>Título</th>
                                     <th>Conteúdo</th>
-                                    <th>Media</th>
                                     <th>Ativo</th>
-                                    <th>Editar</th>
-                                    <th>Excluir</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($noticia as $noticia)
                                 <tr>
+                                    <td style="text-align: center; vertical-align: middle">
+                                        <input type="checkbox" name="selectedNews[]" value="{{$noticia->id}}">
+                                    </td>
                                     <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</td>
                                     <td style="text-align: justify; vertical-align: middle">{!! Str::limit($noticia->conteudo, 100) !!}</td>
                                     
-                                    <td>
-                                        @if ($noticia->images)
-                                        @foreach ($noticia->images as $image)
-                                        <img src=" {{$image->url}}" alt="{{ $image->nome }}" width="100">
-                                        @endforeach
-                                    @endif
-                                    </td>
                                     <td style="text-align: center; vertical-align: middle">
                                         @if($noticia->ativo == 1)
                                         <b type="radio"  class="text-center" style="color: green; ">Sim</b>
@@ -75,30 +71,47 @@ $(document).ready(function(){
                                         <b  type="radio"  style="color: red; text-aling: center;">Não</b>
                                         @endif
                                     </td>
-                                    <td style="text-align: center; vertical-align: middle">
-                                        <a href="/news/editar/{{$noticia->id}}" class="btn btn-warning">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td style="text-align: center; vertical-align: middle">
-                                        <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <button type="submit" formaction="/news/select" class="btn btn-primary">Selecionar Noticias</button>
+                        <button type="submit" class="btn btn-primary">Criar Newsletter</button>
                     </div>
                 </div>
+            </form>
             </div>
         </div>
     </div>
     </body>
+    <script>
+        document.getElementById("newsletterForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const checkboxes = document.querySelectorAll("input[name='selectedNews[]']:checked");
+    if (checkboxes.length === 0) {
+        alert("Selecione pelo menos uma notícia para criar a newsletter.");
+        return;
+    }
+
+    const selectedNewsIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+    // Adicione os IDs das notícias selecionadas como parâmetros na URL do redirecionamento
+    const newsletterCreateURL = "/newsletters/create?selectedNews=" + selectedNewsIds.join(",");
+    window.location.href = newsletterCreateURL;
+});
+$.ajax({
+    url: '/news/select',
+    method: 'POST',
+    data: { /* dados a serem enviados */ },
+    success: function(response) {
+        // manipular a resposta
+    },
+    error: function(xhr) {
+        // manipular erros
+    }
+});
+
+    </script>
+    
     
 </html>
