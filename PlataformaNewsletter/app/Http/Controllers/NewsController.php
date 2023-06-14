@@ -19,7 +19,14 @@ public function select()
 {
     $noticias = News::all();
     
-    return view('news/select_news', ['noticia' => $noticias]);
+    return view('news.select', ['noticia' => $noticias]);
+}
+
+public function selecionar()
+{
+    $noticias = News::all();
+    
+    return view('news.selecionar', ['noticia' => $noticias]);
 }
 
 public function home(){
