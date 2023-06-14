@@ -22,11 +22,11 @@ public function select()
     return view('news.select', ['noticia' => $noticias]);
 }
 
-public function selecionar()
+public function selecionar_news()
 {
     $noticias = News::all();
     
-    return view('news.selecionar', ['noticia' => $noticias]);
+    return view('/news/selecionar', ['noticia' => $noticias]);
 }
 
 public function home(){

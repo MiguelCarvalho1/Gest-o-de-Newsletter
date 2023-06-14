@@ -40,38 +40,40 @@
     <div>
         <h1>Editar Notícia: {{$noticia->titulo}}</h1>
 </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7 offset-3 mt-4">
-                <div class="card-body">
-                    <form action="/news/atualizar/{{$noticia->id}}" method="POST" enctype="multipart/form-data" name="Form" onsubmit="return validateForm()">
-                        @csrf
-                        <div class="form-group">
-                            <label for="titulo">Título: </label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
-                        </div>
-                        <div class="form-group">
-                          <label for="image">Imagem: </label>
-                          <input type="file"  class="form-control-file" id="image" name="images[]" multiple placeholder="Media">
-                      </div>
-                      <div class="form-group">
-                        <label for="conteudo">Conteúdo: </label>
-                        <textarea name="conteudo" id="summernote" class="form-control" placeholder="conteúdo"></textarea>
-                    </div>
-                        <div class="form-group">
-                            <label for="ativo">Ativo:</label>
-                            <select name="ativo" id="ativo" class="from-group">
-                                <option value="1">Sim</option>
-                                <option value="0">Não</option>
-                            </select>
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Criar Notícia">
+<div class="container">
+  <div class="row">
+      <div class="col-md-7 offset-3 mt-4">
+          <div class="card-body">
+              <form action="/news/atualizar/{{$noticia->id}}" method="POST" enctype="multipart/form-data" name="Form" onsubmit="return validateForm()">
+                  @csrf
+                  <div class="form-group">
+                      <label for="titulo">Título: </label>
+                      <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título" value="{{$noticia->titulo}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="image">Imagem: </label>
+                    <input type="file"  class="form-control-file" id="image" name="images[]" multiple placeholder="Media">
                 </div>
-                    </form>
-                    
-                </div>
-            </div>
-        </div>
+                <div class="form-group">
+                  <label for="conteudo">Conteúdo: </label>
+                  <textarea name="conteudo" id="summernote" class="form-control" placeholder="conteúdo">{!! ($noticia->conteudo) !!}</textarea>
+              </div>
+                  <div class="form-group">
+                      <label for="ativo">Ativo:</label>
+                      <select name="ativo" id="ativo" class="from-group">
+                          <option value="1" {{ $noticia->ativo ? 'selected' : '' }}>Sim</option>
+                          <option value="0" {{ !$noticia->ativo ? 'selected' : '' }}>Não</option>
+                      </select>
+                  </div>
+                  <input type="submit" class="btn btn-primary" value="Atualizar Notícia">
+          </div>
+              </form>
+              
+          </div>
+      </div>
+  </div>
+</div>
+
     </div>
 </body>
 <script type="text/javascript">

@@ -224,6 +224,7 @@ $(document).ready(function(){
                             <tr>
                                 <th>ID</th>
                                 <th>Título</th>
+                                <th>Conteudo</th>
                                 <th>Data de Criação</th>
                                 <th>Ações</th>
                             </tr>
@@ -233,6 +234,7 @@ $(document).ready(function(){
                             <tr>
                                 <td>{{ $newsletter->id }}</td>
                                 <td>{{ $newsletter->titulo }}</td>
+                                <td>{{ $newsletter->conteudo }}</td>
                                 <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
                                 <td style="text-align: center;">
                                     <a href="/newsletter/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>

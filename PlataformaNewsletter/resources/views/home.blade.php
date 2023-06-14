@@ -37,21 +37,27 @@
                     </div>
                 @endif
                 <main>
-                    @foreach($noticia as $noticia)
-                    <div class="container mt-4">
-                      <div class="row">
-                        <div class="col-md-8">
-                          <div class="card mb-4">
-                            <img src="{{ asset($noticia->images()->first()->url) }}" width="720" class="card-img-top" >
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                @foreach($noticia as $item)
+                    @if($item->ativo)
+                        <div class="card mb-4">
+                            <img src="{{ asset($item->images()->first()->url) }}" width="720" class="card-img-top">
                             <div class="card-body">
-                              <h5 class="card-title">{{$noticia-> titulo}}</h5>
-                              <p class="card-text">{!! Str::limit($noticia->conteudo, 100) !!}</p>
-                              <a href="/show/{{$noticia->id}}" class="btn btn-primary">Read More</a>
+                                <h5 class="card-title">{{ $item->titulo }}</h5>
+                                <p class="card-text">{!! Str::limit($item->conteudo, 100) !!}</p>
+                                <li><a href="/show/{{ $item->id }}" class="btn btn-primary">Ler mais</a></li>
                             </div>
-                          </div>
                         </div>
-                        @endforeach
-                    </main>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+</main>
+
+                    
             </div>
             
     </body>
