@@ -34,7 +34,7 @@ class NewsletterController extends Controller
     // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
     $newsletter = new Newsletter();
     $newsletter->titulo = $titulo;
-    $newsletter->conteudo= $conteudo;
+    $newsletter->conteudo = "Olá [NOME_ASSINANTE], $conteudo";
     $newsletter->data_envio = $dataEnvio;
 
     $newsletter->save();

@@ -15,12 +15,6 @@ class NewsController extends Controller
     $noticias = News::with('images')->get();
     return view('/news/index', ['noticia' => $noticias]);
 }
-public function select()
-{
-    $noticias = News::all();
-    
-    return view('news.select', ['noticia' => $noticias]);
-}
 
 public function selecionar_news()
 {
@@ -31,6 +25,7 @@ public function selecionar_news()
 
 public function home(){
     $noticias = News::all(); 
+    $noticias = News::with('images')->get();
     return view('/home', ['noticia' => $noticias]);
 
 }

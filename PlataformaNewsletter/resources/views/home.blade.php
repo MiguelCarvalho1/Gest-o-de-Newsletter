@@ -45,9 +45,10 @@
                         <div class="card mb-4">
                             <img src="{{ asset($item->images()->first()->url) }}" width="720" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $item->titulo }}</h5>
+                                <h5 class="card-title" > <a href="/show/{{ $item->id }}" >{{ $item->titulo }}</a></h5>
                                 <p class="card-text">{!! Str::limit($item->conteudo, 100) !!}</p>
-                                <li><a href="/show/{{ $item->id }}" class="btn btn-primary">Ler mais</a></li>
+                                
+                            </div>
                             </div>
                         </div>
                     @endif

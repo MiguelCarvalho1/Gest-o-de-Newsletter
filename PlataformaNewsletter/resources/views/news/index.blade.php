@@ -40,7 +40,7 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <h1>Notícias</h1>
-                <form action="{{ url('/news/selecionar') }}" method="POST">
+                
                     @csrf
                     
                 <div class="card-body">
@@ -96,8 +96,8 @@ $(document).ready(function(){
                                 @endforeach
                             </tbody>
                         </table>
-                        <button type="submit" class="btn btn-primary">Selecionar Notícias</button>
-                        </form>
+                        <a href="/news/selecionar" class="btn btn-primary">Notícias</a>
+                       
                 </div>
             </div>
         </div>
