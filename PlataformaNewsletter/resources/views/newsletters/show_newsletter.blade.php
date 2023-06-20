@@ -1,11 +1,11 @@
-@section('title', 'Newsletter')
+@section('title', 'Newsletters')
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>News</title>
+<title>Newsletter</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -180,90 +180,28 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-    <header>
-        <!-- Cabeçalho do site -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news') }}">News</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletter</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('logout') }}"> Logout</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+   
       </header>
-    
       <div class="container-fluid">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h2>Newsletters</h2>
+        <h1>{{ $newsletter->titulo }}</h1>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <p>{{ $newsletter->conteudo }}</p>
+
+                <h2>Notícias:</h2>
+                @foreach($newsletter->news as $news)
+                    <div class="card mb-4">
+                        <img src="{{ asset($news->images()->first()->url) }}" width="720" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $news->titulo }}</h5>
+                            <p class="card-text">{!! Str::limit($news->conteudo, 100) !!}</p>
+                            <a href="/news/show/{{ $news->id }}" class="btn btn-primary">Ler mais</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <br>
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead style="text-align: center;">
-                            <tr>
-                                <th>Título</th>
-                                <th>Texto Descritivo</th>
-                                <th>Data de Criação</th>
-                                <th>Ver</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($newsletters as $newsletter)
-                            <tr>
-                                <td>{{ $newsletter->titulo }}</td>
-                                <td>{{ $newsletter->conteudo }}</td>
-                                <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
-                                <td style="text-align: center;">
-                                    <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">
-                                        <i class="fa fa-paint-brush"></i></a>
-                                </td>
-                                <td>
-                                    <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-warning">
-                                        <i class="fa fa-edit"></i> </a>
-                                </td>
-                                <td>
-                                    <form action="/newsletters/{{ $newsletter->id }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
-    
 </body>
 
     

@@ -13,24 +13,40 @@
     <!-- summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<header>
+    <!-- Cabeçalho do site -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/newsletters') }}">Newslletters</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/news') }}">News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletter</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}"> Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 </head>
 <body>
   <h1>Criar Notícia</h1>
-  <div class="sidebar">
-    <ul>
-        <li><a href="{{ url('/dashboard') }}"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="{{ url('/news/create') }}"><i class="fa fa-pencil"></i> Create news</a></li>
-        <li><a href="{{ url('/newsletters') }}"><i class="fa fa-envelope"></i> Newsletter</a></li>
-        <li><a href="{{ url('/newsletters/create') }}"><i class="fa fa-plus"></i> Create Newsletter</a></li>
-    </ul>
-</div>
-    
-    <div>
-    
-</div>
-    <div class="container">
+    <div  class="container-fluid">
         <div class="row">
-            <div class="col-md-7 offset-3 mt-4">
+            <div class="col-md-12 mt-4">
                 <div class="card-body">
                     <form action="/news" method="POST"  enctype="multipart/form-data">
                         @csrf

@@ -76,3 +76,7 @@ Route::delete('/admin/assinante', [AssinanteController::class, 'remover'])->midd
 // Newsletter
 Route::get('/newsletters', [NewsletterController::class, 'index'])->middleware('auth');
 Route::post('/newsletters/create', [NewsletterController::class, 'create'])->middleware('auth');
+Route::get('/newsletters/{id}', [NewsletterController::class, 'show'])->middleware('auth');
+Route::get('/newsletters/edit/{id}', [NewsletterController::class, 'edit'])->middleware('auth');
+Route::put('/newsletters/update/{id}', [NewsletterController::class, 'update'])->middleware('auth');
+Route::delete('/newsletters/{id}', [NewsletterController::class, 'destroy'])->middleware('auth');

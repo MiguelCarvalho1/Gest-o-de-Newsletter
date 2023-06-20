@@ -17,7 +17,7 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Plataforma de Gestão de Newsletter') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ url('') }}">
+                    <x-nav-link href="{{ url('newsletters') }}">
                         {{ __('Newsletter') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/news') }}">
