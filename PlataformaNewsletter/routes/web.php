@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AssinanteController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\TagController;
 
 
 
@@ -81,3 +82,11 @@ Route::get('/newsletters/{id}', [NewsletterController::class, 'show'])->middlewa
 Route::get('/newsletters/edit/{id}', [NewsletterController::class, 'edit'])->middleware('auth');
 Route::put('/newsletters/update/{id}', [NewsletterController::class, 'update'])->middleware('auth');
 Route::delete('/newsletters/{id}', [NewsletterController::class, 'destroy'])->middleware('auth');
+
+
+
+// Tags
+Route::get('/tags', [TagController::class, 'index'])->middleware('auth');
+Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->middleware('auth');
+Route::put('/tags/{tag}', [TagController::class, 'update'])->middleware('auth');
+Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->middleware('auth');

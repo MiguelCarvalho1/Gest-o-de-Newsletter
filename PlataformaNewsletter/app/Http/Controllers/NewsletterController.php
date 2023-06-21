@@ -23,7 +23,8 @@ class NewsletterController extends Controller
             
         }
 
-        public function create(Request $request)
+      
+public function create(Request $request)
 {
     $newsIds = explode(',', $request->input('selectedNews'));
     $titulo = $request->input('titulo');
@@ -36,7 +37,23 @@ class NewsletterController extends Controller
     // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
     $newsletter = new Newsletter();
     $newsletter->titulo = $titulo;
-    $newsletter->conteudo = "Olá [NOME_ASSINANTE], $conteudo";
+
+    // Substitua '[NOME_ASSINANTE]' pelo nome e concelho do assinante
+    $newsletter->conteudo = preg_replace_callback('/\[NOME_ASSINANTE\]/', function ($matches) {
+        // Obtenha o nome e o concelho do assinante a partir das tabelas 'assinantes' e 'codiPostal'
+        $assinante = DB::table('assinantes')
+            ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
+            ->inRandomOrder()
+            ->select('assinantes.nome', 'codiPostal.concelho')
+            ->first();
+
+        if ($assinante) {
+            return $assinante->nome . ' - ' . $assinante->concelho;
+        } else {
+            return '';
+        }
+    }, $conteudo);
+
     $newsletter->data_envio = $dataEnvio;
 
     $newsletter->save();
@@ -79,7 +96,22 @@ public function show($id)
 
     // Atualizar os campos da newsletter
     $newsletter->titulo = $titulo;
-    $newsletter->conteudo = "Olá [NOME_ASSINANTE], $conteudo";
+    // Substitua '[NOME_ASSINANTE]' pelo nome e concelho do assinante
+    $newsletter->conteudo = preg_replace_callback('/\[NOME_ASSINANTE\]/', function ($matches) {
+        // Obtenha o nome e o concelho do assinante a partir das tabelas 'assinantes' e 'codiPostal'
+        $assinante = DB::table('assinantes')
+            ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
+            ->inRandomOrder()
+            ->select('assinantes.nome', 'codiPostal.concelho')
+            ->first();
+
+        if ($assinante) {
+            return $assinante->nome . ' - ' . $assinante->concelho;
+        } else {
+            return '';
+        }
+    }, $conteudo);
+
     $newsletter->data_envio = $dataEnvio;
 
     $newsletter->save();

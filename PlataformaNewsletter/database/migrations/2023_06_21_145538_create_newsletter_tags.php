@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('newsletters', function (Blueprint $table) {
+        Schema::create('newsletter_tags', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('conteudo');
-            $table->date('data_envio');
-
+            $table->unsignedBigInteger('newsletter_id');
+            $table->unsignedBigInteger('tag_id');
             $table->timestamps();
+
+            $table->foreign('newsletter_id')->references('id')->on('newsletters')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
     }
 
@@ -30,7 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('newsletters');
+        Schema::dropIfExists('newsletter_tags');
     }
 };
-?>

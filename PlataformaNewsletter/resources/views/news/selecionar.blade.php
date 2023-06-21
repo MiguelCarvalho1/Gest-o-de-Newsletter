@@ -61,9 +61,6 @@ $(document).ready(function(){
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletters</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('logout') }}"> Logout</a>
-          </li>
         </ul>
       </div>
     </nav>

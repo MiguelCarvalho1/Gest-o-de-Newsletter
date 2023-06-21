@@ -24,7 +24,15 @@ class Assinante extends Model
 
         return view('assinantes.search', compact('assinantes'));
     }
-    
+    public function newsletters()
+{
+    return $this->belongsToMany(Newsletter::class, 'newsletter_assinante', 'assinante_id', 'newsletter_id');
+}
+
+public function tags()
+{
+    return $this->belongsToMany(Tag::class, 'assinante_tags', 'assinante_id', 'tag_id');
+}
 
 
     
