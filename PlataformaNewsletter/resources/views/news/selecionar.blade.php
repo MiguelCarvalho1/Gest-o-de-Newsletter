@@ -130,7 +130,20 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
+    <script>
+        const text = "Newsletter Name - City";
+        const regex = /(.*?) - (.*?)(?=\s|$)/;
+        const matches = text.match(regex);
     
+        if (matches) {
+          const newsletterName = matches[1];
+          const city = matches[2];
+          console.log("Newsletter Name:", newsletterName);
+          console.log("City:", city);
+        } else {
+          console.log("No match found.");
+        }
+      </script>
     
 </body>
 </html>

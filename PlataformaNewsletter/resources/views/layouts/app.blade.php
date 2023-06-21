@@ -16,7 +16,15 @@
 
         <!-- Styles -->
         @livewireStyles
-    </head>
+        
+    <style>
+        .custom-background {
+            background-image: url('{{ public_path('fundo.jpg') }}');
+            background-size: cover;
+            /* Outros estilos para o elemento */
+        }
+    </style>
+     
     <body class="font-sans antialiased">
         <x-banner />
 
@@ -29,6 +37,7 @@
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
+                </head>
                 </header>
             @endif
 
@@ -41,5 +50,6 @@
         @stack('modals')
 
         @livewireScripts
+       
     </body>
 </html>

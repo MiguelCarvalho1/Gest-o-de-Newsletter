@@ -45,6 +45,7 @@ Route::middleware([
  Route::get('/news/editar/{id}', [NewsController::class, 'editar_noticia'])->middleware('auth');
  Route::post('/news/atualizar/{id}', [NewsController::class, 'atualizar_noticia'])->middleware('auth');
  Route::delete('/news/{id}', [NewsController::class, 'destroy'])->middleware('auth');
+ Route::get('/news/data', [NewsController::class, 'getData'])->middleware('auth');
 
 
 Route::get('/assinantes_create', [AssinanteController::class, 'create']);

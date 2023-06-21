@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Newsletter;
 use App\Models\News;
+
 use Illuminate\Support\Facades\DB;
 
 
@@ -16,6 +17,7 @@ class NewsletterController extends Controller
         public function index()
         {
             $newsletters = Newsletter::all();
+            
             
             return view('/newsletters/index', ['newsletters' => $newsletters]);
             

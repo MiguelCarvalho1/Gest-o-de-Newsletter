@@ -214,7 +214,7 @@ $(document).ready(function(){
         </nav>
     </header>
 
-    <div class="container-xl">
+    <div class="container-fluid">
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">

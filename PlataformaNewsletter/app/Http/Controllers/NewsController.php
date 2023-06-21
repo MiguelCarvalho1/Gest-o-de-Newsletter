@@ -13,6 +13,7 @@ class NewsController extends Controller
 {
     $noticias = News::all();
     $noticias = News::with('images')->get();
+    
     return view('/news/index', ['noticia' => $noticias]);
 }
 
@@ -119,6 +120,8 @@ public function store(Request $request)
             News::findOrFail($id)->update($data);
             return redirect('/news')->with('msg', 'Notícia atualizada com sucesso!');
         }
+
+        
 
         public function destroy($id)
 {
