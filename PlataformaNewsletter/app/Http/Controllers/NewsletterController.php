@@ -24,47 +24,53 @@ class NewsletterController extends Controller
         }
 
       
-public function create(Request $request)
-{
-    $newsIds = explode(',', $request->input('selectedNews'));
-    $titulo = $request->input('titulo');
-    $conteudo = $request->input('conteudo');
-    $dataEnvio = $request->input('data_envio');
-
-    // Obter os dados das notícias correspondentes
-    $news = News::whereIn('id', $newsIds)->get();
-
-    // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
-    $newsletter = new Newsletter();
-    $newsletter->titulo = $titulo;
-
-    // Substitua '[NOME_ASSINANTE]' pelo nome e concelho do assinante
-    $newsletter->conteudo = preg_replace_callback('/\[NOME_ASSINANTE\]/', function ($matches) {
-        // Obtenha o nome e o concelho do assinante a partir das tabelas 'assinantes' e 'codiPostal'
-        $assinante = DB::table('assinantes')
-            ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
-            ->inRandomOrder()
-            ->select('assinantes.nome', 'codiPostal.concelho')
-            ->first();
-
-        if ($assinante) {
-            return $assinante->nome . ' - ' . $assinante->concelho;
-        } else {
-            return '';
+        public function create(Request $request)
+        {
+            $newsIds = explode(',', $request->input('selectedNews'));
+            $titulo = $request->input('titulo');
+            $conteudo = $request->input('conteudo');
+            $dataEnvio = $request->input('data_envio');
+        
+            // Obter os dados das notícias correspondentes
+            $news = News::whereIn('id', $newsIds)->get();
+        
+            // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
+            $newsletter = new Newsletter();
+            $newsletter->titulo = $titulo;
+        
+            // Substitua '[NOME_ASSINANTE]' pelo nome e concelho do assinante
+            $assinante = DB::table('assinantes')
+                ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
+                ->inRandomOrder()
+                ->select('assinantes.nome', 'codiPostal.concelho')
+                ->first();
+        
+            if ($assinante) {
+                $nomeAssinante = $assinante->nome;
+                $concelhoAssinante = $assinante->concelho;
+        
+                // Substitua '[NOME_ASSINANTE]' pelo nome do assinante
+                $conteudoComNome = preg_replace('/\[NOME\]/', $nomeAssinante, $conteudo);
+        
+                // Substitua '[CONCELHO_ASSINANTE]' pelo concelho do assinante
+                $conteudoComConcelho = preg_replace('/\[CONCELHO\]/', $concelhoAssinante, $conteudoComNome);
+        
+                $newsletter->conteudo = $conteudoComConcelho;
+            } else {
+                $newsletter->conteudo = $conteudo;
+            }
+        
+            $newsletter->data_envio = $dataEnvio;
+        
+            $newsletter->save();
+        
+            // Vincule as notícias selecionadas à newsletter
+            $newsletter->news()->attach($newsIds);
+        
+            // Execute outras ações necessárias, como enviar a newsletter por e-mail
+        
+            return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
         }
-    }, $conteudo);
-
-    $newsletter->data_envio = $dataEnvio;
-
-    $newsletter->save();
-
-    // Vincule as notícias selecionadas à newsletter
-    $newsletter->news()->attach($newsIds);
-
-    // Execute outras ações necessárias, como enviar a newsletter por e-mail
-
-    return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
-}
 
 
 public function show($id)

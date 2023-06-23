@@ -21,34 +21,35 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:tags|max:255',
+            'nome' => 'required|unique:tags|max:255',
         ]);
 
         Tag::create($request->all());
 
-        return redirect()->route('/tags/index')->with('success', 'Tag criada com sucesso.');
+        return redirect(('/tags'))->with('success', 'Tag criada com sucesso.');
     }
-
-    public function edit(Tag $tag)
+    public function edit($id)
     {
+        $tag = Tag::find($id);
         return view('/tags/edit', compact('tag'));
     }
-
-    public function update(Request $request, Tag $tag)
+    
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:tags,name,'.$tag->id.'|max:255',
+            'name' => 'required|unique:tags,name,'.$id.'|max:255',
         ]);
-
-        $tag->update($request->all());
-
-        return redirect()->route('/tags/index')->with('success', 'Tag atualizada com sucesso.');
+    
+        $tag = Tag::find($id);
+        $tag->nome = $request->input('nome');
+        $tag->save();
+    
+        return redirect('/tags')->with('success', 'Tag atualizada com sucesso.');
     }
-
-    public function destroy(Tag $tag)
+    public function destroy( $id)
     {
-        $tag->delete();
+        $id->delete();
 
-        return redirect()->route('/tags/index')->with('success', 'Tag excluída com sucesso.');
+        return redirect()->route('/tags')->with('success', 'Tag eliminda com sucesso.');
     }
 }

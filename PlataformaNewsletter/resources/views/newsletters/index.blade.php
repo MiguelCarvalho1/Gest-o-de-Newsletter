@@ -90,6 +90,9 @@ $(document).ready(function(){
             <a class="nav-link" href="{{ url('/news') }}">News</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ url('/tags') }}">Tags</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
           </li>
           <li class="nav-item">
