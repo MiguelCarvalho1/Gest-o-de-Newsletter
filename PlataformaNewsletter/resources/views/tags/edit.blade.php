@@ -54,27 +54,24 @@
 </head>
 <body>
     <div>
-        <h1>Editar Tag: {{$tag->name}}</h1>
-</div>
-<div class="container-fluid">
-  <div class="row">
-      <div class="col-md-7 offset-3 mt-4">
-          <div class="card-body">
-              <form action="/tag/update/{{$tag->id}}" method="POST" enctype="multipart/form-data" name="Form" onsubmit="return validateForm()">
-                  @csrf
-                  <div class="form-group">
-                      <label for="nome">Nome da Tag: </label>
-                      <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" value="{{ $tag->name }}">
-                  </div>
-                  <input type="submit" class="btn btn-primary" value="Atualizar Tag">
-          </div>
-              </form>
-              
+        <h1>Editar Tag: {{ $tag->name }}</h1>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-7 offset-3 mt-4">
+              <div class="card-body">
+                <form action="/tags/{{$tag->id}}" method="POST" enctype="multipart/form-data" name="Form" onsubmit="return validateForm()">
+                    @csrf
+                    @method('PUT')
+                      <div class="form-group">
+                          <label for="nome">Nome da Tag:</label>
+                          <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" value="{{ $tag->nome }}">
+                      </div>
+                      <input type="submit" class="btn btn-primary" value="Atualizar Tag">
+                  </form>
+              </div>
           </div>
       </div>
-  </div>
-</div>
-
     </div>
 </body>
 <script type="text/javascript">

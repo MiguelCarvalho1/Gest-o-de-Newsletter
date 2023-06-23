@@ -38,13 +38,13 @@ class TagController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:tags,name,' . $id . '|max:255',
+        $data = $request->validate([
+            'nome' => 'required',
+       
         ]);
 
-        $tag = Tag::find($id);
-        $tag->nome = $request->input('nome');
-        $tag->save();
+        $tag =  Tag::findOrFail($id)->update($data);
+       
 
         return redirect('/tags')->with('success', 'Tag atualizada com sucesso.');
     }
