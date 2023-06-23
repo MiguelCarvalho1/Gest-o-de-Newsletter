@@ -76,3 +76,34 @@ Route::delete('/admin/assinante', [AssinanteController::class, 'remover'])->midd
 // Newsletter
 Route::get('/newsletters', [NewsletterController::class, 'index'])->middleware('auth');
 Route::post('/newsletters/create', [NewsletterController::class, 'create'])->middleware('auth');
+//enviar email
+//Route::post('/newsletters', [NewsletterController::class, 'enviarNewsletter'])->name('enviar.newsletter');
+
+Route::post('/newsletters', [AssinanteController::class, 'enviarNewsletter'])->name('enviar.newsletter');
+
+
+$mailHost = env('MAIL_HOST');
+$mailPort = env('MAIL_PORT');
+
+Route::get('/email-verification', function () use ($mailHost, $mailPort) {
+    // Verifica se as configurações do servidor de e-mail estão definidas corretamente
+    if (!empty($mailHost) && !empty($mailPort)) {
+        // Tente estabelecer uma conexão com o servidor de e-mail
+        $connection = @fsockopen($mailHost, $mailPort, $errno, $errstr, 5);
+
+        if ($connection) {
+            echo 'Conexão com o servidor de e-mail estabelecida com sucesso.';
+            fclose($connection);
+            
+            return view('email-verification', ['result' => 'Conexão com o servidor de e-mail estabelecida com sucesso.']);
+        } else {
+            echo 'Não foi possível estabelecer uma conexão com o servidor de e-mail.';
+        }
+    } else {
+        echo 'As configurações do servidor de e-mail não estão definidas corretamente no arquivo .env.';
+    }
+});
+
+
+Route::get('enviar/newsletter', [EmailController::class, 'index'])->name('email.index');
+Route::post('enviar/newsletter', [EmailController::class, 'store'])->name('email.store');

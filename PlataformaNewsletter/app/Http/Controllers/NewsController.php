@@ -14,6 +14,12 @@ class NewsController extends Controller
     $noticias = News::all();
     $noticias = News::with('images')->get();
     return view('/news/index', ['noticia' => $noticias]);
+
+
+
+
+
+
 }
 
 public function selecionar_news()
@@ -127,6 +133,9 @@ public function store(Request $request)
 
     return redirect('/news')->with('msg', 'Notícia excluída com sucesso!');
 }
+
+
+
     
 
 }

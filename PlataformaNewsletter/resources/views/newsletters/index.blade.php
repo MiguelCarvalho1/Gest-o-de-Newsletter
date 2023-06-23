@@ -230,24 +230,31 @@ $(document).ready(function(){
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($newsletters as $newsletter)
-                            <tr>
-                                <td>{{ $newsletter->id }}</td>
-                                <td>{{ $newsletter->titulo }}</td>
-                                <td>{{ $newsletter->conteudo }}</td>
-                                <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
-                                <td style="text-align: center;">
-                                    <a href="/newsletter/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
-                                    <a href="/newsletter/{{ $newsletter->id }}/edit" class="btn btn-success">Editar</a>
-                                    <form action="/newsletter/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+    @foreach($newsletters as $newsletter)
+    <tr>
+        <td>{{ $newsletter->id }}</td>
+        <td>{{ $newsletter->titulo }}</td>
+        <td>{{ $newsletter->conteudo }}</td>
+        <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
+        <td style="text-align: center;">
+            <a href="/newsletter/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
+            <a href="/newsletter/{{ $newsletter->id }}/edit" class="btn btn-success">Editar</a>
+            <form action="/newsletter/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Excluir</button>
+            </form>
+
+          <form action="{{ route('enviar.newsletter') }}" method="POST" style="display: inline-block;">
+    @csrf
+    <input type="hidden" name="conteudo" value="{{ $newsletter->conteudo }}">
+    <button type="submit" class="btn btn-info">Enviar Newsletter</button>
+</form>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
+
                     </table>
                 </div>
             </div>

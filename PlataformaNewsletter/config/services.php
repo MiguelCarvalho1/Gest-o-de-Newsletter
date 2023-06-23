@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'gmail' => [
+        'client_id' => env('844615536889-8bukv106jglkgp2r4ls005f2a3dpt41i.apps.googleusercontent.com'),
+        'client_secret' => env('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'),
+        'redirect' => env('http://localhost:8000/newsletters'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

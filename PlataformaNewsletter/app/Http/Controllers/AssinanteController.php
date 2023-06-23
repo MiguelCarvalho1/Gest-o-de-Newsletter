@@ -150,6 +150,24 @@ class AssinanteController extends Controller
     
         return redirect()->back()->with('success', 'Assinantes removidos com sucesso');
     }
+
+    public function enviarNewsletter(Request $request)
+{
+    $conteudo = $request->input('conteudo');
+    $assinantes = Assinante::all(); // Recupera todos os inscritos
+
+    foreach ($assinantes as $assinante) {
+        // Lógica para enviar a newsletter para cada inscrito
+        // Exemplo: Enviar um e-mail para o inscrito com o conteúdo da newsletter
+        // Você pode usar pacotes como o Laravel Mail para enviar e-mails
+
+        // Exemplo básico de envio de e-mail
+        \Mail::raw($conteudo, function ($message) use ($assinante) {
+            $message->to($assinante->email)
+                    ->subject('Nova newsletter');
+        });
+    }
+}
     
 
 }
