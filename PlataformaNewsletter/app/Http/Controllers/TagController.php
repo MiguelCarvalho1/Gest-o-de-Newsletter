@@ -13,10 +13,12 @@ class TagController extends Controller
         return view('/tags/index', compact('tags'));
     }
 
-    public function create()
+    public function showCreateForm()
     {
         return view('/tags/criar');
     }
+
+
 
     public function store(Request $request)
     {
@@ -33,23 +35,25 @@ class TagController extends Controller
         $tag = Tag::find($id);
         return view('/tags/edit', compact('tag'));
     }
-    
+
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:tags,name,'.$id.'|max:255',
+            'name' => 'required|unique:tags,name,' . $id . '|max:255',
         ]);
-    
+
         $tag = Tag::find($id);
         $tag->nome = $request->input('nome');
         $tag->save();
-    
+
         return redirect('/tags')->with('success', 'Tag atualizada com sucesso.');
     }
-    public function destroy( $id)
+    public function destroy($id)
     {
-        $id->delete();
+       $tag = Tag::findOrFail($id);
+       $tag->delete();
 
-        return redirect()->route('/tags')->with('success', 'Tag eliminda com sucesso.');
+        return redirect('/tags')->with('success', 'Tag eliminda com sucesso.');
     }
+        
 }

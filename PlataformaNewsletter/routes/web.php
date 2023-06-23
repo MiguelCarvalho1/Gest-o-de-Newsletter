@@ -87,7 +87,8 @@ Route::delete('/newsletters/{id}', [NewsletterController::class, 'destroy'])->mi
 
 // Tags
 Route::get('/tags', [TagController::class, 'index'])->middleware('auth');
-Route::post('/tags/criar', [TagController::class, 'create'])->middleware('auth');
+Route::get('/tags/criar', [TagController::class, 'showCreateForm'])->middleware('auth');
+Route::post('/tags', [TagController::class, 'store'])->middleware('auth');
 Route::get('/tags/edit/{id}', [TagController::class, 'edit'])->middleware('auth');
 Route::put('/tags/{id}', [TagController::class, 'update'])->middleware('auth');
 Route::delete('/tags/{id}', [TagController::class, 'destroy'])->middleware('auth');

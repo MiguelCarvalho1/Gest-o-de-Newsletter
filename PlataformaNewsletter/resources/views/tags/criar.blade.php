@@ -41,13 +41,24 @@
 </head>
 <body>
     <h1>Criar Tag</h1>
-        <form action="/tags" method="POST"  enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-            <label for="nome">Nome: </label>
-            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+    <div  class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <div class="card-body">
+                    <form action="/tags" method="POST"  enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="nome">Nome da Tag: </label>
+                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Criar Tag">
+                </div>
+                    </form>
+                    
+                </div>
+            </div>
         </div>
-        <button type="submit">Create</button>
-    </form>
+    </div>
+     
 </body>
 </html>

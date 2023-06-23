@@ -34,6 +34,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletter</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+          </li>
         </ul>
       </div>
     </nav>

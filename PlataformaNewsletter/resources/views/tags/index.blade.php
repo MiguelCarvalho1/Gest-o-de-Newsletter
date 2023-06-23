@@ -7,7 +7,7 @@
     <!-- include libraries(jQuery, bootstrap) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
@@ -33,6 +33,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('/news/selecionar') }}">Create Newsletter</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+              </li>
             </ul>
           </div>
         </nav>
@@ -54,8 +57,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
                             <thead style="text-align: center;">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
+                                    <th>Nome da Tag</th>
                                     <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>
@@ -63,7 +65,6 @@
                             <tbody>
                                 @foreach($tags as $tag)
                                 <tr>
-                                    <td>{{ $tag->id }}</td>
                                     <td>{{ $tag->nome }}</td>
                                     <td style="text-align: center; vertical-align: middle">
                                         <a href="/tags/edit/{{$tag->id}}" class="btn btn-warning">

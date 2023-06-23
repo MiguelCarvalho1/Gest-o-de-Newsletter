@@ -4,16 +4,10 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    
-                    <a href="{{ route('dashboard') }}" >
-                        <i class="fa-solid fa-newspaper"></i>
-                        <x-application-mark class="block h-9 w-auto" />
-                    </a>
-                </div>
+                
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="space-x-6 flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Plataforma de Gestão de Newsletter') }}
                     </x-nav-link>
@@ -23,8 +17,17 @@
                     <x-nav-link href="{{ url('/news') }}">
                         {{ __('News') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ url('/tags') }}">
+                        {{ __(' Tags') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ url('/news/create') }}">
                         {{ __(' Create News') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/news/selecionar') }}">
+                        {{ __(' Create Newsletters') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/tags/criar') }}">
+                        {{ __(' Create Tags') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/admin/assinante') }}">
                         {{ __(' Assinantes') }}
@@ -55,10 +58,6 @@
 
                             <x-slot name="content">
                                 <div class="w-60">
-                                    <!-- Team Management -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
-                                        {{ __('Manage Team') }}
-                                    </div>
 
                                     <!-- Team Settings -->
                                     <x-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">

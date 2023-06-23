@@ -64,6 +64,9 @@ $(document).ready(function(){
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletters</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+          </li>
         </ul>
       </div>
     </nav>
