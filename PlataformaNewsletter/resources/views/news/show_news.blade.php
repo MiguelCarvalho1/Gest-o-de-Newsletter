@@ -41,6 +41,11 @@
 <body>
     <div class="container">
         <h1 class="title">{{ $noticia->titulo }}</h1>
+        <div>
+            @foreach($noticia->tags as $tag)
+                <span class="badge badge-secondary">{{ $tag->nome }}</span>
+            @endforeach
+        </div>
         @if($noticia->images()->count() > 1)
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -67,7 +72,7 @@
         <div class="content">{!! ($noticia->conteudo) !!}</div>
         <div class="footer">
             <p>Publicado em {{ $noticia->created_at->format('d/m/Y') }}</p>
-            <p>Fonte: Nome da Fonte</p>
+            <p>Autor: {{ $noticia->user->name }}</p>
         </div>
         <button type="button" onclick="goToHomePage()" class="btn btn-primary">Voltar para Noticias</button>
     </div>

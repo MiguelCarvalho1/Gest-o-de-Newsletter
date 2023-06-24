@@ -124,15 +124,20 @@ $(document).ready(function(){
                         <thead style="text-align: center;">
                             <tr>
                                 <th>Título</th>
-                                <th>Ativo</th>
-                                <th>Editar</th>
-                                <th>Excluir</th>
+                                <th>Tags</th>
+                                <th>Mostrar na Pagina Incial </th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($noticia as $noticia)
                             <tr>
                                 <td style="text-align: justify; vertical-align: middle"><a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a></td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    @foreach($noticia->tags as $tag)
+                                        <span class="badge badge-secondary">{{ $tag->nome }}</span>
+                                    @endforeach
+                                </td>
                                 <td style="text-align: center; vertical-align: middle">
                                     @if($noticia->ativo == 1)
                                     <b type="radio"  class="text-center" style="color: green; ">Sim</b>
@@ -144,8 +149,6 @@ $(document).ready(function(){
                                     <a href="/news/editar/{{$noticia->id}}" class="btn btn-warning">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
                                     <form action="/news/{{$noticia->id}}" method="POST" style="display: inline">
                                         @csrf
                                         @method('DELETE')

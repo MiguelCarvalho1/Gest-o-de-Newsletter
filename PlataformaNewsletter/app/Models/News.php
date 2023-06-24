@@ -22,5 +22,9 @@ class News extends Model
 {
     return $this->belongsToMany(Tag::class, 'news_tags', 'news_id', 'tag_id');
 }
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 
 }

@@ -126,9 +126,7 @@ $(document).ready(function(){
                                     <th>Título</th>
                                     <th>Texto Descritivo</th>
                                     <th>Data de Criação</th>
-                                    <th>Ver</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,13 +139,9 @@ $(document).ready(function(){
                                             <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">
                                                 <i class="fa fa-paint-brush"></i>
                                             </a>
-                                        </td>
-                                        <td>
                                             <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-warning">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                        </td>
-                                        <td>
                                             <form action="/newsletters/{{ $newsletter->id }}" method="POST"
                                                 style="display:inline-block;">
                                                 @csrf
