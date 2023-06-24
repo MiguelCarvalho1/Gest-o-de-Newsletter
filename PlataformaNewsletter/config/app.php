@@ -213,5 +213,10 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+    // Dentro do array 'providers'
+Yajra\DataTables\DataTablesServiceProvider::class,
+
+// Dentro do array 'aliases'
+'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
 ];

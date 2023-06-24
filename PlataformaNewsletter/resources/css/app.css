@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-background {
+    background-image: url('/public/img/fundo.jpg');
+    background-size: cover;
+    /* Outros estilos para o elemento */
+}

@@ -1,9 +1,9 @@
-@extends('layouts.style')
-<html lang="en">
-<head>
+<!DOCTYPE html>
+<html>
+   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Criar Noticias </title>
+    <title>Criar Tags </title>
     <!-- include libraries(jQuery, bootstrap) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -34,42 +34,24 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletter</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
-          </li>
         </ul>
       </div>
     </nav>
   </header>
 </head>
 <body>
-  <h1>Criar Notícia</h1>
+    <h1>Criar Tag</h1>
     <div  class="container-fluid">
         <div class="row">
             <div class="col-md-12 mt-4">
                 <div class="card-body">
-                    <form action="/news" method="POST"  enctype="multipart/form-data">
+                    <form action="/tags" method="POST"  enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="titulo">Título: </label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
+                            <label for="nome">Nome da Tag: </label>
+                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
                         </div>
-                        <div class="form-group">
-                            <label for="image">Imagem: </label>
-                            <input type="file"  class="form-control-file" id="image" name="images[]" multiple placeholder="Media">
-                        </div>
-                        <div class="form-group">
-                            <label for="conteudo">Conteúdo: </label>
-                            <textarea name="conteudo" id="summernote" class="form-control" placeholder="conteúdo"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="ativo">Ativo:</label>
-                            <select name="ativo" id="ativo" class="from-group">
-                                <option value="1">Sim</option>
-                                <option value="0">Não</option>
-                            </select>
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Criar Notícia">
+                        <input type="submit" class="btn btn-primary" value="Criar Tag">
                 </div>
                     </form>
                     
@@ -77,13 +59,6 @@
             </div>
         </div>
     </div>
+     
 </body>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#summernote').summernote({
-        height: 400
-    });
-    });
-</script>
 </html>

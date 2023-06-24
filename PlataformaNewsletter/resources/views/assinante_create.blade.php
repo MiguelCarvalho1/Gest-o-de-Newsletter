@@ -81,7 +81,7 @@
             <input type="text" value="" maxlength="10" name="codiPostal" id="codiPostal">
         </div>
         <div class="form-group">
-            <input type="submit" id="submitBtn" value="Subscribe" class="submit-btn">
+            <input type="submit" id="submitBtn" value="Inscreva-se" class="submit-btn">
         </div>
     </form>
 </div>

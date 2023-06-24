@@ -37,19 +37,43 @@ $(document).ready(function(){
 });
 
 </script>
+<header>
+    <!-- Cabeçalho do site -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/newsletters') }}">Newslletters</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/news') }}">News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/tags') }}">Tags</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletters</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 </head>
 <body>
-    <header>
-        <div class="sidebar">
-            <ul>
-                <li><a href="{{ url('/dashboard') }}"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="{{ url('/news/create') }}"><i class="fa fa-pencil"></i> Create news</a></li>
-                <li><a href="{{ url('/newsletters') }}"><i class="fa fa-envelope"></i> Newsletter</a></li>
-                <li><a href="{{ url('/newsletters/create') }}"><i class="fa fa-plus"></i> Create Newsletter</a></li>
-            </ul>
-        </div>
-    </header>
-    <div class="container-xl">
+    <div class="container-fluid">
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">
@@ -58,7 +82,7 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <h1>Notícias</h1>
+                <h1>Criar Newsletters</h1>
                 <div class="card-body">
                     <br>
                     <div class="table-responsive">
@@ -67,7 +91,6 @@ $(document).ready(function(){
                                 <tr>
                                     <th>Selecionar</th>
                                     <th>Título</th>
-                                    <th>Conteúdo</th>
                                     <th>Ativo</th>
                                 </tr>
                             </thead>
@@ -79,9 +102,6 @@ $(document).ready(function(){
                                     </td>
                                     <td style="text-align: justify; vertical-align: middle">
                                         <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
-                                    </td>
-                                    <td style="text-align: justify; vertical-align: middle">
-                                        {!! Str::limit($noticia->conteudo, 100) !!}
                                     </td>
                                     <td style="text-align: center; vertical-align: middle">
                                         @if($noticia->ativo == 1)
@@ -113,7 +133,20 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
+    <script>
+        const text = "Newsletter Name - City";
+        const regex = /(.*?) - (.*?)(?=\s|$)/;
+        const matches = text.match(regex);
     
+        if (matches) {
+          const newsletterName = matches[1];
+          const city = matches[2];
+          console.log("Newsletter Name:", newsletterName);
+          console.log("City:", city);
+        } else {
+          console.log("No match found.");
+        }
+      </script>
     
 </body>
 </html>
