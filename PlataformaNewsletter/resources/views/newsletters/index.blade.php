@@ -125,6 +125,10 @@ $(document).ready(function(){
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Excluir</button>
                                     </form>
+                                    
+                                    <a href="{{ url('/enviar-email') }}">Enviar E-mail</a>
+
+
                                 </td>
                             </tr>
                             @endforeach
