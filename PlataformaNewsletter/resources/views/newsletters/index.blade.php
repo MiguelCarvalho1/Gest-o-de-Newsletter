@@ -87,7 +87,7 @@ $(document).ready(function(){
         </nav>
       </header>
     
-<div class="container-xl">
+<div class="container-fluid">
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
@@ -118,12 +118,15 @@ $(document).ready(function(){
                                 <td>{{ $newsletter->conteudo }}</td>
                                 <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
                                 <td style="text-align: center;">
-                                    <a href="/newsletter/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
-                                    <a href="/newsletter/{{ $newsletter->id }}/edit" class="btn btn-success">Editar</a>
-                                    <form action="/newsletter/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
+                                    <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
+                                    <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-success">
+                                         <i class="fa fa-edit"></i></a>
+                                    <form action="/newsletters/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </form>
                                     
                                     <a href="{{ url('/enviar-email') }}">Enviar E-mail</a>

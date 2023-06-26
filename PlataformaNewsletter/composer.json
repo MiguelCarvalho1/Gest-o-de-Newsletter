@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/oauth2-client": "^2.7",
+        "league/oauth2-google": "^4.0",
         "livewire/livewire": "^2.11",
         "yajra/laravel-datatables-oracle": "^10.4"
     },
