@@ -150,6 +150,8 @@ class NewsController extends Controller
         $noticia = News::findOrFail($id);
         $noticia->delete();
 
-        return redirect('/news')->with('msg', 'Notícia excluída com sucesso!');
-    }
+    return redirect('/news')->with('msg', 'Notícia excluída com sucesso!');
+}
+    
+
 }
