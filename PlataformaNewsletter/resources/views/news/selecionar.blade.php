@@ -91,6 +91,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th>Selecionar</th>
                                     <th>Título</th>
+                                    <th>Tags</th>
                                     <th>Ativo</th>
                                 </tr>
                             </thead>
@@ -103,6 +104,11 @@ $(document).ready(function(){
                                     <td style="text-align: justify; vertical-align: middle">
                                         <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
                                     </td>
+                                    <td style="text-align: center; vertical-align: middle">
+                                      @foreach($noticia->tags as $tag)
+                                          <span class="badge badge-secondary">{{ $tag->nome }}</span>
+                                      @endforeach
+                                  </td>
                                     <td style="text-align: center; vertical-align: middle">
                                         @if($noticia->ativo == 1)
                                         <b type="radio" class="text-center" style="color: green;">Sim</b>

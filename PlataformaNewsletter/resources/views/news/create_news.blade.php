@@ -55,6 +55,14 @@
                             <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
                         </div>
                         <div class="form-group">
+                          <label for="tags">Tags:</label>
+                          <select name="tags[]" id="tags" class="form-control" multiple>
+                              @foreach ($tags as $tag)
+                                  <option value="{{ $tag->id }}">{{ $tag->nome }}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                        <div class="form-group">
                             <label for="image">Imagem: </label>
                             <input type="file"  class="form-control-file" id="image" name="images[]" multiple placeholder="Media">
                         </div>
