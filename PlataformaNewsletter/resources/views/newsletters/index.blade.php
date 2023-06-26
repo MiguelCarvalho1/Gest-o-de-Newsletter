@@ -1,6 +1,6 @@
 @extends('layouts.style')
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,6 +14,43 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#dataTable').DataTable({
+        "language": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "Mostrar _MENU_ resultados por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            },
+            "select": {
+                "rows": {
+                    "_": "Selecionado %d linhas",
+                    "0": "Nenhuma linha selecionada",
+                    "1": "Selecionado 1 linha"
+                }
+            }
+        }
+    });
+});
+</script>
 <style>
     body {
         overflow-x: hidden;
@@ -54,11 +91,6 @@
         border: 1px solid #ddd;
     }
 </style>
-<script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
 </head>
 <body>
     <header>
@@ -105,7 +137,7 @@ $(document).ready(function(){
                             <tr>
                                 <th>ID</th>
                                 <th>Título</th>
-                                <th>Conteudo</th>
+                                <th>Conteúdo</th>
                                 <th>Data de Criação</th>
                                 <th>Ações</th>
                             </tr>
@@ -118,9 +150,12 @@ $(document).ready(function(){
                                 <td>{{ $newsletter->conteudo }}</td>
                                 <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
                                 <td style="text-align: center;">
-                                    <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">Ver</a>
+                                    <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                     <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-success">
-                                         <i class="fa fa-edit"></i></a>
+                                         <i class="fa fa-edit"></i>
+                                        </a>
                                     <form action="/newsletters/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
@@ -130,8 +165,6 @@ $(document).ready(function(){
                                     </form>
                                     
                                     <a href="{{ url('/enviar-email') }}">Enviar E-mail</a>
-
-
                                 </td>
                             </tr>
                             @endforeach
