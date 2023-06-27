@@ -21,7 +21,9 @@ class NewsController extends Controller
     }
 
     public function selecionar_news()
+    
     {
+        
         $noticias = News::all();
 
         return view('/news/selecionar', ['noticia' => $noticias]);

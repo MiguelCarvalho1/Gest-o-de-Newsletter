@@ -6,8 +6,9 @@ use App\Models\Newsletter;
 use App\Models\News;
 use App\Models\Assinante;
 
-use League\OAuth2\Client\Provider\Google;
-use GuzzleHttp\Client;
+use \Google\Client;
+use \Google\Service\Gmail;
+use Google\Auth\OAuth2;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -19,62 +20,65 @@ class NewsletterController extends Controller
     public function index()
     {
         $newsletters = Newsletter::all();
-        return view('/newsletters/index', ['newsletters' => $newsletters]);
+        return view('newsletters.index', ['newsletters' => $newsletters]);
     }
 
     public function create(Request $request)
     {
         $newsIds = explode(',', $request->input('selectedNews'));
-        $titulo = $request->input('titulo');
+               $titulo = $request->input('titulo');
         $conteudo = $request->input('conteudo');
         $dataEnvio = $request->input('data_envio');
-
+    
         // Obter os dados das notícias correspondentes
         $news = News::whereIn('id', $newsIds)->get();
-
+    
         // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
         $newsletter = new Newsletter();
         $newsletter->titulo = $titulo;
-
+    
         // Substitua '[NOME_ASSINANTE]' pelo nome e concelho do assinante
         $assinante = DB::table('assinantes')
             ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
             ->inRandomOrder()
             ->select('assinantes.nome', 'codiPostal.concelho')
             ->first();
-
+    
         if ($assinante) {
             $nomeAssinante = $assinante->nome;
             $concelhoAssinante = $assinante->concelho;
-
+    
             // Substitua '[NOME_ASSINANTE]' pelo nome do assinante
             $conteudoComNome = preg_replace('/\[NOME\]/', $nomeAssinante, $conteudo);
-
+    
             // Substitua '[CONCELHO_ASSINANTE]' pelo concelho do assinante
             $conteudoComConcelho = preg_replace('/\[CONCELHO\]/', $concelhoAssinante, $conteudoComNome);
-
+    
             $newsletter->conteudo = $conteudoComConcelho;
         } else {
             $newsletter->conteudo = $conteudo;
         }
-
+    
         $newsletter->data_envio = $dataEnvio;
-
+    
         $newsletter->save();
+    
+        $newsletter->news()->detach();
 
-        // Vincule as notícias selecionadas à newsletter
+        // Vincular as novas notícias selecionadas à newsletter
         $newsletter->news()->attach($newsIds);
-
+    
         // Execute outras ações necessárias, como enviar a newsletter por e-mail
-
+    
         return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
     }
+    
 
     public function show($id)
     {
         $newsletter = Newsletter::findOrFail($id);
 
-        return view('/newsletters/show_newsletter', compact('newsletter'));
+        return view('newsletters.show_newsletter', compact('newsletter'));
     }
 
     public function edit($id)
@@ -85,140 +89,120 @@ class NewsletterController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    // Obter a newsletter com o ID fornecido
-    $newsletter = Newsletter::findOrFail($id);
+    {
+        // Obter a newsletter com o ID fornecido
+        $newsletter = Newsletter::findOrFail($id);
 
-    // Obter os dados do formulário de edição
-    $titulo = $request->input('titulo');
-    $conteudo = $request->input('conteudo');
-    $dataEnvio = $request->input('data_envio');
-    $selectedNews = $request->input('selectedNews');
-    $newsIds = is_array($selectedNews) ? implode(',', $selectedNews) : $selectedNews;
-    $newsIds = explode(',', $newsIds);
+        // Obter os dados do formulário de edição
+        $titulo = $request->input('titulo');
+        $conteudo = $request->input('conteudo');
+        $dataEnvio = $request->input('data_envio');
+        $selectedNews = $request->input('selectedNews');
+        $newsIds = is_array($selectedNews) ? implode(',', $selectedNews) : $selectedNews;
+        $newsIds = explode(',', $newsIds);
 
-    // Atualizar os campos da newsletter
-    $newsletter->titulo = $titulo;
-    $newsletter->conteudo = "Olá [NOME_ASSINANTE], $conteudo";
-    $newsletter->data_envio = $dataEnvio;
+        // Atualizar os campos da newsletter
+        $newsletter->titulo = $titulo;
+        $newsletter->conteudo = "Olá [NOME_ASSINANTE], $conteudo";
+        $newsletter->data_envio = $dataEnvio;
 
-    $newsletter->save();
+        $newsletter->save();
 
-    // Remover as notícias vinculadas existentes
-    $newsletter->news()->detach();
+        // Remover as notícias vinculadas existentes
+        $newsletter->news()->detach();
 
-    // Vincular as novas notícias selecionadas à newsletter
-    $newsletter->news()->attach($newsIds);
+        // Vincular as novas notícias selecionadas à newsletter
+        $newsletter->news()->attach($newsIds);
 
-    return redirect('/newsletters')->with('success', 'A newsletter foi atualizada com sucesso!');
-}
-public function destroy($id)
-{
-    // Find the newsletter with the given ID
-    $newsletter = Newsletter::findOrFail($id);
+        return redirect('/newsletters')->with('success', 'A newsletter foi atualizada com sucesso!');
+    }
 
-    // Detach the related news
-    $newsletter->news()->detach();
+    public function destroy($id)
+    {
+        // Find the newsletter with the given ID
+        $newsletter = Newsletter::findOrFail($id);
 
-    // Delete the newsletter
-    $newsletter->delete();
+        // Detach the related news
+        $newsletter->news()->detach();
 
-    return redirect('/newsletters')->with('success', 'A newsletter foi excluída com sucesso!');
-}
+        // Delete the newsletter
+        $newsletter->delete();
 
+        return redirect('/newsletters')->with('success', 'A newsletter foi excluída com sucesso!');
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function enviarEmail()
+    public function enviarEmail($id)
     {
         $user = Auth::user(); // Ou qualquer lógica para obter o usuário atual
 
-        $provider = new Google([
-            'clientId' => config('services.gmail.client_id'),
-            'clientSecret' => config('services.gmail.client_secret'),
-            'redirectUri' => config('services.gmail.redirect_uri'),
-        ]);
+        $client = new Client();
+        $client->setAuthConfig(config('services.gmail.client_secret'));
+        $client->setScopes(['https://www.googleapis.com/auth/gmail.send']);
+        $client->setAccessType('offline');
+        $client->setPrompt('select_account consent');
 
         // Se o usuário não tem um token de acesso, redirecione para a página de autorização do Google
         if (!$user->gmail_access_token) {
-            $authUrl = $provider->getAuthorizationUrl();
+            $authUrl = $client->createAuthUrl();
             return redirect($authUrl);
         }
 
         // Se você já tem o token de acesso, configure-o para o provedor do OAuth2
         $accessToken = $user->gmail_access_token;
-        $provider->setAccessToken($accessToken);
- // Se o token expirou, atualize-o usando o token de atualização
- if ($provider->isAccessTokenExpired()) {
-    $newAccessToken = $provider->getAccessToken('refresh_token', [
-        'refresh_token' => $user->gmail_refresh_token,
-    ]);
+        $client->setAccessToken($accessToken);
 
-    // Atualize o token de acesso no banco de dados
-    $user->gmail_access_token = $newAccessToken->getToken();
-    $user->save();
-}
+        // Verificar se o token expirou
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($user->gmail_refresh_token);
 
-// Crie um cliente HTTP para enviar o email
-$client = new Client();
+            // Atualizar o token de acesso no banco de dados
+            $newAccessToken = $client->getAccessToken();
+            $user->gmail_access_token = $newAccessToken['access_token'];
+            $user->save();
+        }
 
-// Obtenha os detalhes do remetente e do destinatário
-$remetente = $user->email;
-$destinatario = $user->email;
+        // Criar um cliente do serviço Gmail
+        $gmailService = new Gmail($client);
 
-// Obtenha a newsletter a ser enviada
-$newsletter = Newsletter::findOrFail($id);
+        // Obter os detalhes do remetente e do destinatário
+        $remetente = $user->email;
+        $destinatario = $user->email;
 
-// Prepare o conteúdo do email
-$subject = $newsletter->titulo;
-$body = $newsletter->conteudo;
+        // Obter a newsletter a ser enviada
+        $newsletter = Newsletter::findOrFail($id);
 
-// Configurar o corpo da solicitação para enviar o email
-$requestBody = [
-    'personalizations' => [
-        [
-            'to' => [
-                ['email' => $destinatario],
-            ],
-        ],
-    ],
-    'from' => ['email' => $remetente],
-    'subject' => $subject,
-    'content' => [
-        [
-            'type' => 'text/html',
-            'value' => $body,
-        ],
-    ],
-];
+        // Preparar o conteúdo do email
+        $subject = $newsletter->titulo;
+        $body = $newsletter->conteudo;
 
-// Enviar o email usando a API do Gmail
-$response = $client->post('https://www.googleapis.com/gmail/v1/users/me/messages/send', [
-    'headers' => [
-        'Authorization' => 'Bearer ' . $provider->getAccessToken(),
-        'Content-Type' => 'application/json',
-    ],
-    'body' => json_encode($requestBody),
-]);
+        // Configurar o corpo da solicitação para enviar o email
+        $requestBody = new \Google_Service_Gmail_Message();
+        $requestBody->setRaw($this->base64UrlEncode($this->createEmail($remetente, $destinatario, $subject, $body)));
+        
+        // Enviar o email usando a API do Gmail
+        $gmailService->users_messages->send('me', $requestBody);
 
-// Verificar o status da resposta
-if ($response->getStatusCode() === 200) {
-    // O email foi enviado com sucesso
-    return redirect('/newsletters')->with('success', 'O email foi enviado com sucesso!');
-} else {
-    // O envio do email falhou
-    return redirect('/newsletters')->with('error', 'Falha ao enviar o email.');
-}
-}
+        return redirect('/newsletters')->with('success', 'O email foi enviado com sucesso!');
+    }
+
+    // Função auxiliar para criar um objeto \Google_Service_Gmail_Message com os dados do email
+    private function createEmail($remetente, $destinatario, $subject, $body)
+    {
+        $email = new \Google_Service_Gmail_Message();
+        $email->setFrom($remetente);
+        $email->setTo($destinatario);
+        $email->setSubject($subject);
+        $email->setTextBody($body);
+
+        return $email;
+    }
+
+    // Função auxiliar para codificar o email no formato base64 URL-safe
+    private function base64UrlEncode($data)
+    {
+        $data = str_replace(array('+', '/'), array('-', '_'), base64_encode($data));
+        $data = rtrim($data, '=');
+
+        return $data;
+    }
 }

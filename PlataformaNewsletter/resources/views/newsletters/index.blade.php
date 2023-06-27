@@ -10,8 +10,10 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
@@ -112,7 +114,10 @@ $(document).ready(function(){
                 <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('/newsletters/create') }}"> Create Newslletter</a>
+                <a class="nav-link" href="{{ url('/news/selecionar') }}">Create Newsletter</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
               </li>
             </ul>
           </div>
@@ -135,7 +140,6 @@ $(document).ready(function(){
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead style="text-align: center;">
                             <tr>
-                                <th>ID</th>
                                 <th>Título</th>
                                 <th>Conteúdo</th>
                                 <th>Data de Criação</th>
@@ -145,7 +149,6 @@ $(document).ready(function(){
                         <tbody>
                             @foreach($newsletters as $newsletter)
                             <tr>
-                                <td>{{ $newsletter->id }}</td>
                                 <td>{{ $newsletter->titulo }}</td>
                                 <td>{{ $newsletter->conteudo }}</td>
                                 <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
@@ -153,7 +156,7 @@ $(document).ready(function(){
                                     <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-success">
+                                    <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-warning">
                                          <i class="fa fa-edit"></i>
                                         </a>
                                     <form action="/newsletters/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
