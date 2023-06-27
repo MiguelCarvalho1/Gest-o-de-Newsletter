@@ -1,5 +1,5 @@
-@extends('layouts.style')
 
+@extends('layouts.style')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,6 +125,10 @@
                 <label for="conteudo">Conteúdo da Newsletter:</label>
                 <textarea class="form-control" name="conteudo" id="conteudo" rows="5"></textarea>
             </div>
+            <div class="form-group">
+                <label for="tags">Tags:</label>
+                <input type="text" class="form-control" name="tags" id="tags" placeholder="Digite as tags separadas por vírgula">
+            </div>
             <input type="hidden" name="selectedNews" id="selectedNews" value="">
             <input type="hidden" name="data_envio" value="{{ date('Y-m-d H:i:s') }}">
             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Criar Newsletter</button>
@@ -141,28 +145,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($noticia as $noticia)
-                    <tr>
-                        <td style="text-align: center; vertical-align: middle">
-                            <input type="checkbox" name="selectedNews[]" value="{{$noticia->id}}">
-                        </td>
-                        <td style="text-align: justify; vertical-align: middle">
-                            <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
-                        </td>
-                        <td style="text-align: center; vertical-align: middle">
-                            @foreach($noticia->tags as $tag)
-                            <span class="badge badge-secondary">{{ $tag->nome }}</span>
+                            @foreach($noticia as $noticia)
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <input type="checkbox" name="selectedNews[]" value="{{$noticia->id}}">
+                                </td>
+                                <td style="text-align: justify; vertical-align: middle">
+                                    <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    @foreach($noticia->tags as $tag)
+                                    <span class="badge badge-secondary">{{ $tag->nome }}</span>
+                                    @endforeach
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    @if($noticia->ativo == 1)
+                                    <b type="radio" class="text-center" style="color: green;">Sim</b>
+                                    @else
+                                    <b type="radio" style="color: red; text-align: center;">Não</b>
+                                    @endif
+                                </td>
+                            </tr>
                             @endforeach
-                        </td>
-                        <td style="text-align: center; vertical-align: middle">
-                            @if($noticia->ativo == 1)
-                            <b type="radio" class="text-center" style="color: green;">Sim</b>
-                            @else
-                            <b type="radio" style="color: red; text-align: center;">Não</b>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>

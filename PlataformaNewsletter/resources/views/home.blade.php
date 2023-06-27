@@ -13,7 +13,7 @@
                 <div class="row justify-content-center align-items-center">
                     <div class="col-md-8">
                         @foreach($noticia->sortByDesc('created_at') as $item)
-                            @if($item->ativo)
+                            @if($item->ativo && $item->images()->first())
                                 <div class="card mb-4 news-card">
                                     <img src="{{ asset($item->images()->first()->url) }}" width="720" class="card-img-top">
                                     <div class="card-body text-center">

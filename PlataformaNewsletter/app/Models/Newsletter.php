@@ -16,6 +16,7 @@ class Newsletter extends Model
 {
     return $this->belongsToMany(Assinante::class, 'newsletter_assinante', 'newsletter_id', 'assinante_id');
 }
+
 public function tags()
 {
     return $this->belongsToMany(Tag::class, 'newsletter_tags', 'newsletter_id', 'tag_id');

@@ -96,10 +96,8 @@ Route::put('/tags/{id}', [TagController::class, 'update'])->middleware('auth');
 Route::delete('/tags/{id}', [TagController::class, 'destroy'])->middleware('auth');
 
 
-//enviar email teste
-Route::get('/enviar-email', [EmailController::class, 'enviarEmail']);
 
-Route::post('/newsletters', [AssinanteController::class, 'enviarNewsletter'])->name('enviar.newsletter');
+Route::post('/enviar-email', [EmailController::class, 'enviarEmail'])->name('enviar.newsletter');
 
 
 $mailHost = env('MAIL_HOST');
@@ -125,5 +123,3 @@ Route::get('/email-verification', function () use ($mailHost, $mailPort) {
 });
 
 
-Route::get('enviar/newsletter', [EmailController::class, 'index'])->name('email.index');
-Route::post('enviar/newsletter', [EmailController::class, 'store'])->name('email.store');
