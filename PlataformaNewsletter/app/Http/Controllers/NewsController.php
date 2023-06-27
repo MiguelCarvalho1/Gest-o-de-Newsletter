@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\View;
 
 use Illuminate\Http\Request;
 use App\Models\News;
@@ -21,7 +22,9 @@ class NewsController extends Controller
     }
 
     public function selecionar_news()
+    
     {
+        
         $noticias = News::all();
 
         return view('/news/selecionar', ['noticia' => $noticias]);

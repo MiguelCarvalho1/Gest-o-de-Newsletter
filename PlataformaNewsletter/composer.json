@@ -6,12 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "guzzlehttp/guzzle": "^7.6",
+        "google/apiclient": "^2.15",
+        "guzzlehttp/guzzle": "^7.7",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^3.0",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/oauth2-client": "^2.7",
+        "league/oauth2-google": "^4.0",
         "livewire/livewire": "^2.11",
         "yajra/laravel-datatables-oracle": "^10.4"
     },

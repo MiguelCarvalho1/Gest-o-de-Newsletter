@@ -181,14 +181,15 @@ $(document).ready(function(){
 </head>
 <body>
    
-      </header>
-      <div class="container-fluid">
+    <div class="container-fluid">
         <h1>{{ $newsletter->titulo }}</h1>
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <p>{{ $newsletter->conteudo }}</p>
-
                 <h2>Notícias:</h2>
+                @foreach($newsletter->tags as $tag)
+                <span class="badge badge-primary">{{ $tag->nome }}</span>
+            @endforeach
                 @foreach($newsletter->news as $news)
                     <div class="card mb-4">
                         <img src="{{ asset($news->images()->first()->url) }}" width="720" class="card-img-top">
@@ -199,6 +200,8 @@ $(document).ready(function(){
                         </div>
                     </div>
                 @endforeach
+
+               
             </div>
         </div>
     </div>

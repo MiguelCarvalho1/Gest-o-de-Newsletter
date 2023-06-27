@@ -1,159 +1,175 @@
-@extends('layouts.style')
 
+@extends('layouts.style')
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>News</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Criar Noticias </title>
-    <!-- include libraries(jQuery, bootstrap) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>News</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <!-- summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script>
-$(document).ready(function(){
-    document.getElementById("newsletterForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "Selecionado %d linhas",
+                            "0": "Nenhuma linha selecionada",
+                            "1": "Selecionado 1 linha"
+                        }
+                    }
+                }
+            });
 
-        const checkboxes = document.querySelectorAll("input[name='selectedNews[]']:checked");
-        if (checkboxes.length === 0) {
-            alert("Selecione pelo menos uma notícia para criar a newsletter.");
-            return;
-        }
+            // Pesquisa por Tag
+            $('#tag').on('keyup', function(){
+                var tag = $(this).val().toLowerCase();
+                $('#dataTable tbody tr').filter(function(){
+                    $(this).toggle($(this).find('td:eq(2)').text().toLowerCase().indexOf(tag) > -1)
+                });
+            });
 
-        const selectedNewsIds = Array.from(checkboxes).map(checkbox => checkbox.value);
-        document.getElementById("selectedNews").value = selectedNewsIds.join(",");
+            // Manipular envio do formulário
+            document.getElementById("newsletterForm").addEventListener("submit", function(e) {
+                e.preventDefault();
 
-        this.submit();
-    });
-});
+                const checkboxes = document.getElementsByName("selectedNews[]");
+                const selectedNewsIds = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
 
-</script>
-<header>
-    <!-- Cabeçalho do site -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/newsletters') }}">Newslletters</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/news') }}">News</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/tags') }}">Tags</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/news/selecionar') }}"> Create Newslletters</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+                document.getElementById("selectedNews").value = selectedNewsIds.join(",");
+                this.submit();
+            });
+        });
+    </script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-8">
-                        </div>
-                    </div>
-                </div>
-                <h1>Criar Newsletters</h1>
-                <div class="card-body">
-                    <br>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
-                            <thead style="text-align: center;">
-                                <tr>
-                                    <th>Selecionar</th>
-                                    <th>Título</th>
-                                    <th>Tags</th>
-                                    <th>Ativo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($noticia as $noticia)
-                                <tr>
-                                    <td style="text-align: center; vertical-align: middle">
-                                        <input type="checkbox" name="selectedNews[]" value="{{$noticia->id}}">
-                                    </td>
-                                    <td style="text-align: justify; vertical-align: middle">
-                                        <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
-                                    </td>
-                                    <td style="text-align: center; vertical-align: middle">
-                                      @foreach($noticia->tags as $tag)
-                                          <span class="badge badge-secondary">{{ $tag->nome }}</span>
-                                      @endforeach
-                                  </td>
-                                    <td style="text-align: center; vertical-align: middle">
-                                        @if($noticia->ativo == 1)
-                                        <b type="radio" class="text-center" style="color: green;">Sim</b>
-                                        @else
-                                        <b type="radio" style="color: red; text-align: center;">Não</b>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <form action="{{ '/newsletters/create' }}" method="POST" id="newsletterForm">
-                            @csrf
-                            <input type="hidden" name="selectedNews" id="selectedNews" value="">
-                            <div class="form-group">
-                                <label for="titulo">Título da Newsletter:</label>
-                                <input type="text" class="form-control" name="titulo" id="titulo">
-                            </div>
-                            <div class="form-group">
-                                <label for="conteudo">Conteúdo da Newsletter:</label>
-                                <textarea class="form-control" name="conteudo" id="conteudo" rows="5"></textarea>
-                            </div>
-                            <input type="hidden" name="data_envio" value="{{ date('Y-m-d H:i:s') }}">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Criar Newsletter</button>
-                        </form>
-                    </div>
-                </div>
+    <header>
+        <!-- Cabeçalho do site -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ url('/dashboard') }}">Newsletter</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/newsletters') }}">Newsletters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news') }}">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/tags') }}">Tags</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news/selecionar') }}">Create Newsletters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+                    </li>
+                </ul>
             </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <h1>Criar Newsletters</h1>
+        <br>
+        <form action="{{ '/newsletters/create' }}" method="POST" id="newsletterForm">
+            @csrf
+            <div class="form-group">
+                <label for="titulo">Título da Newsletter:</label>
+                <input type="text" class="form-control" name="titulo" id="titulo">
+            </div>
+            <div class="form-group">
+                <label for="tag">Pesquisar por Tag:</label>
+                <input type="text" class="form-control" name="tag" id="tag">
+            </div>
+            <div class="form-group">
+                <label for="conteudo">Conteúdo da Newsletter:</label>
+                <textarea class="form-control" name="conteudo" id="conteudo" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags:</label>
+                <input type="text" class="form-control" name="tags" id="tags" placeholder="Digite as tags separadas por vírgula">
+            </div>
+            <input type="hidden" name="selectedNews" id="selectedNews" value="">
+            <input type="hidden" name="data_envio" value="{{ date('Y-m-d H:i:s') }}">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Criar Newsletter</button>
+        </form>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Selecionar</th>
+                        <th>Título</th>
+                        <th>Tags</th>
+                        <th>Ativo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                            @foreach($noticia as $noticia)
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <input type="checkbox" name="selectedNews[]" value="{{$noticia->id}}">
+                                </td>
+                                <td style="text-align: justify; vertical-align: middle">
+                                    <a href="/news/show/{{$noticia->id}}">{{$noticia->titulo}}</a>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    @foreach($noticia->tags as $tag)
+                                    <span class="badge badge-secondary">{{ $tag->nome }}</span>
+                                    @endforeach
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    @if($noticia->ativo == 1)
+                                    <b type="radio" class="text-center" style="color: green;">Sim</b>
+                                    @else
+                                    <b type="radio" style="color: red; text-align: center;">Não</b>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-    <script>
-        const text = "Newsletter Name - City";
-        const regex = /(.*?) - (.*?)(?=\s|$)/;
-        const matches = text.match(regex);
-    
-        if (matches) {
-          const newsletterName = matches[1];
-          const city = matches[2];
-          console.log("Newsletter Name:", newsletterName);
-          console.log("City:", city);
-        } else {
-          console.log("No match found.");
-        }
-      </script>
-    
 </body>
 </html>
-

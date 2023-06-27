@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Newsletter;
+use App\Models\Assinante;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -10,32 +12,17 @@ class EmailController extends Controller
 {
     public function enviarEmail()
     {
-        $email = 'ritapinto33@outlook.com'; // Insira o endereço de e-mail de destino aqui
+        $assinantes = Assinante::pluck('email')->toArray(); // Obtém a lista de endereços de e-mail dos assinantes
 
-        Mail::send('emails.ola', [], function ($message) use ($email) {
-            $message->to($email)
+        Mail::send('emails.ola', [], function ($message) use ($assinantes) {
+            $message->to($assinantes)
                 ->subject('Olá!');
         });
 
-        return 'E-mail enviado com sucesso!';
+        // Define a mensagem de sucesso na sessão
+
+
+        // Redireciona de volta à página "newsletters"
+        return redirect()->back();
     }
 }
-
-
-/*
-class EmailController extends Controller
-{
-    public function index ()
-    {
-        return view ('welcome');
-    }
-
-public function store (Request $request)
-    {
-        $email= $request->email;
-        $message= $request->email;
-        dd($email.$message);
-    }
-
-} */
-

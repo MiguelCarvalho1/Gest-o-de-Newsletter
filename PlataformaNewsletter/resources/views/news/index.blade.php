@@ -10,30 +10,49 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-    var dataTable = $('#dataTable').DataTable({
-        "language": {
-            "search": "Pesquisar:",
-            "lengthMenu": "Mostrar _MENU_ registros por página",
-            "zeroRecords": "Nenhum registro encontrado",
-            "info": "Mostrando página _PAGE_ de _PAGES_",
-            "infoEmpty": "Nenhum registro disponível",
-            "infoFiltered": "(filtrado de _MAX_ registros totais)"
-        },
-        "lengthMenu": [5, 10, 25, 50]
+     $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();
+          $('#dataTable').DataTable({
+              "language": {
+                  "sEmptyTable": "Nenhum registro encontrado",
+                  "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                  "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                  "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                  "sInfoPostFix": "",
+                  "sInfoThousands": ".",
+                  "sLengthMenu": "Mostrar _MENU_ resultados por página",
+                  "sLoadingRecords": "Carregando...",
+                  "sProcessing": "Processando...",
+                  "sZeroRecords": "Nenhum registro encontrado",
+                  "sSearch": "Pesquisar",
+                  "oPaginate": {
+                      "sNext": "Próximo",
+                      "sPrevious": "Anterior",
+                      "sFirst": "Primeiro",
+                      "sLast": "Último"
+                  },
+                  "oAria": {
+                      "sSortAscending": ": Ordenar colunas de forma ascendente",
+                      "sSortDescending": ": Ordenar colunas de forma descendente"
+                  },
+                  "select": {
+                      "rows": {
+                          "_": "Selecionado %d linhas",
+                          "0": "Nenhuma linha selecionada",
+                          "1": "Selecionado 1 linha"
+                      }
+                  }
+              }
+          });
     });
-
-    $('#search-input').on('keyup', function() {
-        dataTable.search(this.value).draw();
-    });
-});
-</script>
+    </script>
 <style>
     body {
         overflow-x: hidden;
