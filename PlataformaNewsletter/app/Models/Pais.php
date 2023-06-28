@@ -14,8 +14,8 @@ class Pais extends Model
     protected $fillable = ['nome'];
 
 
-    public function assinantes()
+    public function codipostais()
     {
-        return $this->hasMany(Paises::class, 'id');
+        return $this->hasMany(Codipostal::class);
     }
 }

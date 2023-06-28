@@ -18,4 +18,9 @@ class CodiPostal extends Model
     {
         return $this->hasMany(Assinante::class, 'id_codiPostal');
     }
+
+    public function pais()
+{
+    return $this->belongsTo(Pais::class);
+}
 }
