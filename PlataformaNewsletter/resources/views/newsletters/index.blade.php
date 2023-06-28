@@ -172,10 +172,10 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
-                                        <form action="{{ route('enviar.newsletter') }}" method="POST">
-                                            @csrf
-                                            <button  class="btn btn-primary" type="submit" style=" border-radius: 4px; padding: 10px 20px; border: none; cursor: pointer;">Enviar</button>
-                                        </form>
+                                        <form action="{{ route('enviar.newsletter', ['newsletterId' => $newsletter->id]) }}" method="POST">
+                                       @csrf
+                                        <button type="submit">Enviar Email</button>
+                                         </form>
                                     </td>
                                 </tr>
                                 @endforeach

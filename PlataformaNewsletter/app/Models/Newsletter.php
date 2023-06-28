@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\News; 
 
 class Newsletter extends Model
 {
     use HasFactory;
+
+    use HasFactory;
+
+
     public function news()
     {
         return $this->belongsToMany(News::class, 'newsletter_news', 'newsletter_id', 'news_id');
