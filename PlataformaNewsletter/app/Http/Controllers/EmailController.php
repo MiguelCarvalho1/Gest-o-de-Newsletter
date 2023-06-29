@@ -24,7 +24,7 @@ class EmailController extends Controller
         $conteudoNewsletter = $newsletter->conteudo;
     
         $newsIds = $newsletter->news()->pluck('news_id')->toArray(); // Array de IDs das notícias associadas à newsletter
-        $news = News::whereIn('id', $newsIds)->get(); // Obtém as notícias associadas à newsletter
+        $news = News::whereIn('id', $newsIds)->with('images')->get(); // Obtém as notícias associadas à newsletter, incluindo as imagens
     
         Mail::send('emails.ola', ['titulo' => $tituloNewsletter, 'conteudo' => $conteudoNewsletter, 'news' => $news], function ($message) use ($assinantes) {
             $message->to($assinantes)
@@ -37,4 +37,5 @@ class EmailController extends Controller
         return redirect()->back();
     }
 }
+
 

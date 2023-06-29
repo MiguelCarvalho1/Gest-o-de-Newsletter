@@ -26,6 +26,13 @@
         li {
             margin-bottom: 10px;
         }
+        img {
+            max-width: 300px;
+            height: auto;
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -34,13 +41,29 @@
     <p>Conteúdo: {{ $conteudo }}</p>
     
     <h2>Notícias:</h2>
-    <ul>
-        @foreach ($news as $new)
-            <li>
-                <strong>{{ $new->titulo }}</strong><br>
-                {!! nl2br($new->conteudo) !!}
-            </li>
-        @endforeach
-    </ul>
+    <ul class="list-unstyled">
+    @foreach ($news as $new)
+        <li class="mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ $new->titulo }}</h5>
+                    <p class="card-text font-italic">{!! nl2br($new->conteudo) !!}</p>
+                    @if ($new->images->count() > 0)
+                        <div class="row">
+                            @foreach ($new->images as $image)
+                                <div class="col-6">
+                                    <img src="{{ $message->embed($image->url) }}" alt="{{ $image->descricao }}" class="img-fluid">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </li>
+    @endforeach
+</ul>
+
+
+
 </body>
 </html>
