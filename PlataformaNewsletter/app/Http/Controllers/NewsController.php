@@ -8,6 +8,11 @@ use App\Models\News;
 use App\Models\Image;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\NewsExport;
+use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Str;
 
 
 class NewsController extends Controller
@@ -155,6 +160,25 @@ class NewsController extends Controller
 
     return redirect('/news')->with('msg', 'Notícia excluída com sucesso!');
 }
-    
 
+//Exportar
+public function exportXlsx()
+{
+    return Excel::download(new NewsExport, 'noticias.xlsx');
+}
+
+public function exportPdf($id)
+{
+
+    ini_set('max_execution_time', 300); 
+    
+    $noticia = News::with('images')->findOrFail($id);
+    
+    // Defina o nome do arquivo PDF usando o título da notícia
+    $nomeArquivo = Str::slug($noticia->titulo) . '.pdf';
+
+    // Exporte a notícia atual para PDF usando a classe NewsExport
+    $pdf = PDF::loadView('news.exportpdf', compact('noticia'));
+    return $pdf->download($nomeArquivo);
+}
 }

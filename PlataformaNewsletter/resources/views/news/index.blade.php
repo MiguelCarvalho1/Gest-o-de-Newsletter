@@ -1,4 +1,6 @@
 @extends('layouts.style')
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +13,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -52,8 +53,11 @@
               }
           });
     });
-    </script>
+</script>
 <style>
+     .col-sm-20 {
+        margin-top: 10px;
+    }
     body {
         overflow-x: hidden;
     }
@@ -126,7 +130,7 @@
 </header>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-body">
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
@@ -134,18 +138,23 @@
                     <div class="col-sm-8">
                         <h2>Notícias</h2>
                     </div>
+                   
                 </div>
             </div>
-            <div class="card-body">
+            
+            <div class="card-fluid">
                 <br>
+                
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
                         <thead style="text-align: center;">
                             <tr>
                                 <th>Título</th>
                                 <th>Tags</th>
-                                <th>Mostrar na Pagina Incial </th>
+                                <th>Mostrar na Página Inicial</th>
                                 <th>Ações</th>
+                                <th>Exportar</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -176,11 +185,23 @@
                                         </button>
                                     </form>
                                 </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                        <a href="{{ route('news.exportPdf', $noticia->id) }}" class="btn btn-danger">
+                                            <i class="fa fa-file-pdf-o"></i> Exportar PDF
+                                        </a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+
+                    
                 </div>
+            </div>
+            <div class="col-sm-20 text-right">
+                <a href="{{ route('news.exportXlsx') }}" class="btn btn-success">
+                    <i class="fa fa-file-excel"></i> Exportar XLSX
+                </a>
             </div>
         </div>
     </div>
