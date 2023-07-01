@@ -97,7 +97,10 @@ Route::delete('/tags/{id}', [TagController::class, 'destroy'])->middleware('auth
 
 
 
-Route::post('/enviar-email', [EmailController::class, 'enviarEmail'])->name('enviar.newsletter');
+//Route::post('/enviar-email', [EmailController::class, 'enviarEmail'])->name('enviar.newsletter');
+
+Route::post('/enviar-email/{newsletterId}', [EmailController::class, 'enviarEmail'])->name('enviar.newsletter');
+
 
 
 $mailHost = env('MAIL_HOST');

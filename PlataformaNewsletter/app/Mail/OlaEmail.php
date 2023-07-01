@@ -30,6 +30,6 @@ class OlaEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Olá')->view('emails.ola');
+        return $this->subject('Ultimas noticias')->view('emails.ola');
     }
 }
