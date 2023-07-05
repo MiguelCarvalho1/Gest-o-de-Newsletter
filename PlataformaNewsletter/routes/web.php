@@ -126,3 +126,8 @@ Route::get('/email-verification', function () use ($mailHost, $mailPort) {
 });
 
 
+//Exportar 
+Route::get('tags/export/{format}', [TagController::class, 'export'])->name('tags.export');
+Route::get('news/export/pdf/{id}', [NewsController::class, 'exportPdf'])->name('news.exportPdf');
+Route::get('news/export/xlsx', [NewsController::class, 'exportXlsx'])->name('news.exportXlsx');
+

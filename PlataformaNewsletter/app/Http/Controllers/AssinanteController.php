@@ -7,6 +7,7 @@ use App\Models\Pais;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Mail;
 
 
 class AssinanteController extends Controller
@@ -168,6 +169,7 @@ class AssinanteController extends Controller
         // Você pode usar pacotes como o Laravel Mail para enviar e-mails
 
         // Exemplo básico de envio de e-mail
+        Mail::raw($conteudo, function ($message) use ($assinante) {
         Mail::raw($conteudo, function ($message) use ($assinante) {
             $message->to($assinante->email)
                     ->subject('Nova newsletter');

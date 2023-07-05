@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tag;
 
+use App\Exports\TagsExport;
+use App\Exports\TagsExportPDF;
+use Barryvdh\DomPDF\Facade\PDF;
+use Maatwebsite\Excel\Facades\Excel;
+
 class TagController extends Controller
 {
     public function index()
@@ -55,5 +60,51 @@ class TagController extends Controller
 
         return redirect('/tags')->with('success', 'Tag eliminda com sucesso.');
     }
-        
+    public function export($format)
+    { 
+        $tags = Tag::all();
+    
+        if (in_array($format, ['xlsx', 'pdf'])) {
+            if ($format === 'pdf') {
+                $pdf = PDF::loadView('tags.tags-pdf', compact('tags'));
+                $pdf->getDomPDF()->set_option('font_dir', storage_path('fonts/'));
+                $pdf->getDomPDF()->set_option('font_cache', storage_path('fonts/'));
+                return $pdf->download('Tags.pdf');
+            } else {
+                // Lógica para exportar em XLSX
+                return Excel::download(new TagsExport, 'Tags.'.$format);
+            }
+        }
+    }
+
+    
+
+
+    
+public function contarAssinantesPorTag()
+{
+    // Obtenha todas as tags
+    $tags = Tag::all();
+
+    // Array para armazenar os contadores de assinantes por tag
+    $contadores = [];
+
+    // Percorra cada tag
+    foreach ($tags as $tag) {
+        // Obtenha o número de assinantes associados à tag atual
+        $count = $tag->assinantes()->count();
+
+        // Armazene o contador no array, usando o ID da tag como chave
+        $contadores[$tag->id] = $count;
+    }
+
+    // Faça algo com o array de contadores (exibir, retornar, etc.)
+    // ...
+
+    // Exemplo de exibição dos contadores
+    foreach ($contadores as $tagId => $count) {
+        echo "Tag ID: $tagId, Assinantes: $count";
+    }
 }
+}
+

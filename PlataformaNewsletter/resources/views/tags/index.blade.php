@@ -15,7 +15,7 @@
     <header>
         <!-- Cabeçalho do site -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
-          <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
+          <a class="navbar-brand" href="{{ url('/dashboard') }}">Newsletter</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -49,9 +49,21 @@
                         <div class="col-sm-8">
                             <h2>Lista de Tags</h2>
                         </div>
+                        <div class="col-sm-4 text-right">
+                            <div class="btn-group" role="group">
+                                <!-- Exportar para PDF -->
+                                <a href="{{ route('tags.export', ['format' => 'pdf']) }}" class="btn btn-danger">
+                                    <i class="fa fa-file-pdf"></i> Exportar PDF
+                                </a>
+                                <!-- Exportar para XLSX -->
+                                <a href="{{ route('tags.export', ['format' => 'xlsx']) }}" class="btn btn-success">
+                                    <i class="fa fa-file-excel"></i> Exportar XLSX
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-fluid">
                     <br>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="100">
@@ -76,7 +88,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash"></i>
+                                                <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -91,6 +103,3 @@
     </div>
 </body>
 </html>
-
-
-
