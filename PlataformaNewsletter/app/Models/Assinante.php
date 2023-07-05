@@ -31,7 +31,7 @@ class Assinante extends Model
 
 public function tags()
 {
-    return $this->belongsToMany(Tag::class, 'assinante_tags', 'assinante_id', 'tag_id');
+    return $this->belongsToMany(Tag::class, 'assinante_tag', 'assinante_id', 'tag_id');
 }
 
 

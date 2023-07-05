@@ -1,69 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Olá!</title>
+    <meta charset="UTF-8">
+    <title>Template Moderno</title>
     <style>
-        /* Estilos para melhorar a aparência do email */
         body {
+            background-color: #F4F4F4;
             font-family: Arial, sans-serif;
-            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
         }
-        h1 {
-            font-size: 24px;
+
+        .header {
+            text-align: center;
             margin-bottom: 20px;
+            background-color: #192A56;
+            color: #FFFFFF;
+            padding: 10px;
         }
-        h2 {
-            font-size: 20px;
-            margin-top: 30px;
+
+        .header h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .news-card {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            list-style: none; /* Remove o ponto no lado esquerdo dos cards */
+        }
+
+        .news-card h5 {
+            margin-top: 0;
+        }
+
+        .news-card p {
+            margin-bottom: 0;
+        }
+
+        .news-card img {
+            width: 100%;
             margin-bottom: 10px;
         }
-        ul {
-            list-style: none;
-            padding-left: 0;
+
+        .news-card .content {
+            max-height: 150px;
+            overflow: hidden;
         }
-        li {
-            margin-bottom: 10px;
+
+        .news-card .read-more-btn {
+            color: blue;
+            cursor: pointer;
         }
-        img {
-            max-width: 300px;
-            height: auto;
-            float: left;
-            margin-right: 10px;
-            margin-bottom: 10px;
+
+        .news-card:first-child {
+            margin-top: 0;
+        }
+
+        .center-text {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Olá!</h1>
-    <p>Aqui está o título da newsletter: {{ $titulo }}</p>
-    <p>Conteúdo: {{ $conteudo }}</p>
-    
-    <h2>Notícias:</h2>
-    <ul class="list-unstyled">
-    @foreach ($news as $new)
-        <li class="mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">{{ $new->titulo }}</h5>
-                    <p class="card-text font-italic">{!! nl2br($new->conteudo) !!}</p>
+    <div class="container">
+        <div class="header">
+            <h1>Newsletter</h1>
+        </div>
+
+        <div class="center-text">
+            <h1>Olá!</h1>
+            <p>{{ $titulo }}</p>
+            <p>{{ $conteudo }}</p>
+        </div>
+        
+        <h2>Notícias:</h2>
+        <ul class="list-unstyled">
+        @foreach ($news as $new)
+            <li class="mb-4">
+                <div class="card news-card">
                     @if ($new->images->count() > 0)
-                        <div class="row">
-                            @foreach ($new->images as $image)
-                                <div class="col-6">
-                                    <img src="{{ $message->embed($image->url) }}" alt="{{ $image->descricao }}" class="img-fluid">
-                                </div>
-                            @endforeach
-                        </div>
+                        <img src="{{ $message->embed($new->images[0]->url) }}" alt="{{ $new->images[0]->descricao }}">
                     @endif
+                    <div class="content">
+                        <h5 class="card-title text-primary">{{ $new->titulo }}</h5>
+                        <p class="card-text font-italic">
+                            @php
+                                $content = strlen($new->conteudo) > 250 ? substr($new->conteudo, 0, 250) . '...' : $new->conteudo;
+                            @endphp
+                            {!! nl2br($content) !!}
+                        </p>
+                        @if (strlen($new->conteudo) > 250)
+                            <button class="read-more-btn" onclick="showFullContent(this)">Ler mais</button>
+                        @endif
+                    </div>
                 </div>
-            </div>
-        </li>
-    @endforeach
-</ul>
-
-
-
+            </li>
+        @endforeach
+    </ul>
+    </div>
+    <script>
+        // Função para exibir o conteúdo completo quando o botão "Ler mais" é clicado
+        function showFullContent(button) {
+            button.parentNode.getElementsByClassName('card-text')[0].innerHTML = "{!! nl2br($new->conteudo) !!}";
+            button.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
