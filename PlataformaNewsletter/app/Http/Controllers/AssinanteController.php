@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\Assinante;
 use App\Models\CodiPostal;
 use App\Models\Pais;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -39,11 +41,31 @@ class AssinanteController extends Controller
     public function create()
     {
       
-        $concelhos = CodiPostal::all();
-        return view('assinante_create', compact('concelhos'));
+      {
+    $concelhos = CodiPostal::all();
+    $tags = Tag::all();
+    $pais = Pais::all();
+    
+    return view('assinante_create', compact('concelhos', 'tags', 'pais'));
+}
 
         $pais = Pais::all();
         return view('assinante_create', compact('pais'));
+
+
+        // Crie ou recupere os registros das tags no banco de dados
+        foreach ($tagsArray as $tagName) {
+            $tagName = strtolower(trim($tagName));
+            $tag = Tag::where('nome', $tagName)->first();
+
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->nome = $tagName;
+                $tag->save();
+            }
+
+            $tagIds[] = $tag->id;
+        }
     }
    /* public function edit($id)
     {
@@ -78,55 +100,38 @@ class AssinanteController extends Controller
         // Redireciona para a página inicial dos assinantes
         return redirect()->route('assinantes.index');
     }*/
-
     public function store(Request $request)
-     { 
-        //dd($request) ;
-       /* $data = $request->validate([
-        
-            'nome' => 'required',
-            'email' => 'required|email',
-            'codiPostal' => 'required' ,
-            'localidade' =>'required',
-            'pais' => 'required',
-            'concelho' =>'required',
-            
-        ]);*/    
 
 
 
+    {
         $postalCode = CodiPostal::create([
-        
             'codiPostal' => $request->codiPostal,
             'localidade' => $request->localidade,
             'pais' => $request->pais,
             'concelho' => $request->concelho,
-            
-
-
-
         ]);
 
-        $codigopostalId = $postalCode->id;
-      
 
+    
         $subscriber = Assinante::create([
-            
             'nome' => $request->nome,
             'email' => $request->email,
-            'id_codiPostal' => $codigopostalId
-    
+            'id_codiPostal' => $postalCode->id
         ]);
 
-        $subscriber->postalCode()->associate($postalCode);
-        $subscriber->save();
+        
+    // Obter as tags selecionadas
+    $tagIds = $request->input('tags');
 
+    // Salvar as tags selecionadas para o assinante
+    $subscriber->tags()->attach($tagIds);
+  
+    
         // Faça qualquer outra ação necessária aqui, como exibir uma mensagem de sucesso
         $request->session()->flash('success', 'Subscrito com sucesso!');
-       
-    
-
     }
+    
 
     public function destroy($id)
     {
@@ -164,6 +169,7 @@ class AssinanteController extends Controller
         // Você pode usar pacotes como o Laravel Mail para enviar e-mails
 
         // Exemplo básico de envio de e-mail
+        Mail::raw($conteudo, function ($message) use ($assinante) {
         Mail::raw($conteudo, function ($message) use ($assinante) {
             $message->to($assinante->email)
                     ->subject('Nova newsletter');
