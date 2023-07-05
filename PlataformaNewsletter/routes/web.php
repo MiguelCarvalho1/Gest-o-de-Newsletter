@@ -6,8 +6,7 @@ use App\Http\Controllers\AssinanteController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\EmailController;
-
-
+use App\Http\Controllers\RegistosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +28,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/admin', function () {
+        return view('admin/admin');
+    })->name('admin');
 });
 
  /*Noticia*/
@@ -61,11 +60,11 @@ Route::get('/assinantes', [AssinanteController::class, 'index']);
 
 Route::post('/assinantes_create', [AssinanteController::class, 'store']);
 
-Route::post('/assinantes', [AssinanteController::class, 'store']);
+Route::post('/assinantes', [AssinanteController::class, 'store'])->middleware('auth');
 
 Route::get('/admin/assinante', [AssinanteController::class, 'index'])->middleware('auth');
-Route::get('/assinantes/{id}/edit', [AssinanteController::class, 'edit'])->name('assinantes.edit');
-Route::put('/assinantes/{id}', [AssinanteController::class, 'update'])->name('assinantes.update');
+Route::get('/assinantes/{id}/edit', [AssinanteController::class, 'edit'])->name('assinantes.edit')->middleware('auth');
+Route::put('/assinantes/{id}', [AssinanteController::class, 'update'])->name('assinantes.update')->middleware('auth');
 
 Route::delete('/admin/assinante/{id}', [AssinanteController::class, 'destroy'])->middleware('auth');
 Route::delete('/admin/assinante', [AssinanteController::class, 'remover'])->middleware('auth');
@@ -126,8 +125,13 @@ Route::get('/email-verification', function () use ($mailHost, $mailPort) {
 });
 
 
+//Registros
+Route::get('registos', [RegistosController::class, 'index'])->middleware('auth');
+
 //Exportar 
-Route::get('tags/export/{format}', [TagController::class, 'export'])->name('tags.export');
-Route::get('news/export/pdf/{id}', [NewsController::class, 'exportPdf'])->name('news.exportPdf');
-Route::get('news/export/xlsx', [NewsController::class, 'exportXlsx'])->name('news.exportXlsx');
+Route::get('tags/export/{format}', [TagController::class, 'export'])->name('tags.export')->middleware('auth');
+Route::get('news/export/pdf/{id}', [NewsController::class, 'exportPdf'])->name('news.exportPdf')->middleware('auth');
+Route::get('news/export/xlsx', [NewsController::class, 'exportXlsx'])->name('news.exportXlsx')->middleware('auth');
+Route::get('/registos/export/xlsx', [RegistosController::class, 'exportXlsx'])->name('registos.export.xlsx')->middleware('auth');
+Route::get('/registos/export/pdf', [RegistosController::class, 'exportToPDF'])->name('registos.export.pdf')->middleware('auth');
 

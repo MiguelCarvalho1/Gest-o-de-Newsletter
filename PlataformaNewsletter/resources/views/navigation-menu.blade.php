@@ -15,23 +15,27 @@
                         {{ __('Newsletter') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/news') }}">
-                        {{ __('News') }}
+                        {{ __('Notícias') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/tags') }}">
-                        {{ __(' Tags') }}
+                        {{ __('Tags') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ url('/news/create') }}">
-                        {{ __(' Create News') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ url('/news/selecionar') }}">
-                        {{ __(' Create Newsletters') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ url('/tags/criar') }}">
-                        {{ __(' Create Tags') }}
+                    <x-nav-link href="{{ url('/registos') }}">
+                        {{ __('Registos') }}
                     </x-nav-link>
                     <x-nav-link href="{{ url('/admin/assinante') }}">
                         {{ __(' Assinantes') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ url('/news/create') }}">
+                        {{ __('CriarNotícias') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/news/selecionar') }}">
+                        {{ __('Criar Newsletters') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ url('/tags/criar') }}">
+                        {{ __('Criar Tags') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

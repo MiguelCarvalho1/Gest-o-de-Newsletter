@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tag;
+use App\Models\Registro;
 
 use App\Exports\TagsExport;
 use App\Exports\TagsExportPDF;
@@ -105,6 +106,17 @@ public function contarAssinantesPorTag()
     foreach ($contadores as $tagId => $count) {
         echo "Tag ID: $tagId, Assinantes: $count";
     }
+}
+
+public function countTagUsage()
+{
+    $tags = Tag::withCount('news')->get();
+
+    foreach ($tags as $tag) {
+        $tag->registros()->updateOrCreate([], ['tag_utilizadas' => $tag->news_count]);
+    }
+
+    return $tags;
 }
 }
 

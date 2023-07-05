@@ -20,6 +20,6 @@ public function newsletters()
 
 public function assinantes()
 {
-    return $this->belongsToMany(Assinante::class);
+    return $this->belongsToMany(Assinante::class,'assinante_tags', 'assinante_id', 'tag_id' );
 }
 }

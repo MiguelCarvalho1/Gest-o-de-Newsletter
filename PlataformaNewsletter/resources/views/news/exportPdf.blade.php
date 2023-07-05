@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,6 +37,16 @@
         height: auto;
         margin-bottom: 20px;
     }
+    .tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #a7a7a7;
+    color: #fff;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
 
     .content {
         margin-bottom: 20px;
@@ -52,12 +62,18 @@
     <div class="container">
         <h1 class="title">{{ $noticia->titulo }}</h1>
         <div>
-            @foreach($noticia->tags as $tag)
-                <span class="badge badge-secondary">{{ $tag->nome }}</span>
-            @endforeach
+            <div>
+                @foreach($noticia->tags as $tag)
+                    <span class="tag">{{ $tag->nome }}</span>
+                @endforeach
+            </div>
         </div>
         <div>
-
+            @if($noticia->images->isNotEmpty())
+            @foreach($noticia->images as $image)
+                <img src="{{ public_path($image->url) }}" class="image" alt="Imagem">
+            @endforeach
+        @endif
 
         <div class="content">{!! ($noticia->conteudo) !!}</div>
         <div class="footer">

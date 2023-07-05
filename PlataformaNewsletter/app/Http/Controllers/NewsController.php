@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Image;
 use App\Models\Tag;
+use App\Models\Registro;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\NewsExport;
@@ -61,7 +62,6 @@ class NewsController extends Controller
         $tags = Tag::all();
         return view('/news/create_news', compact('tags'));
     }
-
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -77,36 +77,49 @@ class NewsController extends Controller
             if ($request->has('tags')) {
                 $selectedTags = $request->input('tags');
                 $noticia->tags()->attach($selectedTags);
+    
+                // Atualizar a contagem de tags utilizadas nas notícias
+                foreach ($selectedTags as $tagId) {
+                    $tag = Tag::findOrFail($tagId);
+                    $tag->save();
+                }
+    
+                // Atualizar a contagem de tags utilizadas nas notícias na tabela de registros
+                $registro = Registro::firstOrNew(['user_id' => $user->id]);
+                $registro->tags_utilizadas_noticias = $registro->tags_utilizadas_noticias + count($selectedTags);
+                $registro->news_count = $registro->news_count + 1; // Incrementar a contagem de notícias criadas pelo usuário
+                $registro->save();
             }
-        if ($request->hasFile('images')) {
-            $images = $request->file('images');
-
-            foreach ($images as $image) {
-                $extension = $image->getClientOriginalExtension(); // Obtém a extensão do arquivo original
-                $filename = time() . '_' . uniqid() . '.' . $extension; // Gera um nome de arquivo único
-                $path = $image->move(public_path('images/noticias'), $filename);
-                $url = 'images/noticias/' . $filename;
-
-                $imageModel = new Image();
-                $imageModel->url = $url;
-                $imageModel->nome = $image->getClientOriginalName();
-
-                $noticia->images()->save($imageModel);
+    
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+    
+                foreach ($images as $image) {
+                    $extension = $image->getClientOriginalExtension(); // Obtém a extensão do arquivo original
+                    $filename = time() . '_' . uniqid() . '.' . $extension; // Gera um nome de arquivo único
+                    $path = $image->move(public_path('images/noticias'), $filename);
+                    $url = 'images/noticias/' . $filename;
+    
+                    $imageModel = new Image();
+                    $imageModel->url = $url;
+                    $imageModel->nome = $image->getClientOriginalName();
+    
+                    $noticia->images()->save($imageModel);
+                }
             }
         }
-
-
-
-
-
-
-
-
-        return redirect('/news')->with('msg', 'Notícia criada com sucesso!');
-    } else {
-        return redirect('/login')->with('error', 'É necessário fazer login para criar uma notícia.');
+    
+        return redirect('/news')->with('success', 'A notícia foi criada com sucesso!');
     }
-    }
+    
+
+
+
+
+
+
+
+   
 
     /*  Função para abrir a view "Editar Noticia", onde é passado um $id como parâmetro.
         A variável $noticia guarda a Noticia com o $id passado como parâmetro.
@@ -173,12 +186,13 @@ public function exportPdf($id)
     ini_set('max_execution_time', 300); 
     
     $noticia = News::with('images')->findOrFail($id);
+    $imagem = $noticia->images->first();
     
     // Defina o nome do arquivo PDF usando o título da notícia
     $nomeArquivo = Str::slug($noticia->titulo) . '.pdf';
 
     // Exporte a notícia atual para PDF usando a classe NewsExport
-    $pdf = PDF::loadView('news.exportpdf', compact('noticia'));
+    $pdf = PDF::loadView('news.exportpdf', compact('noticia', 'imagem'));
     return $pdf->download($nomeArquivo);
 }
 }

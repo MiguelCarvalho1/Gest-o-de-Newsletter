@@ -1,7 +1,8 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <link rel="icon" type="image/png" href="https://img.icons8.com/doodle/48/newsletter.png">
+        
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
@@ -20,7 +21,7 @@
 
             <div class="flex justify-end mt-4">
                 <x-button class="ml-4">
-                    {{ __('Confirm') }}
+                    {{ __('Confirma') }}
                 </x-button>
             </div>
         </form>

@@ -6,6 +6,7 @@ use App\Models\Newsletter;
 use App\Models\News;
 use App\Models\Assinante;
 use App\Models\Tag;
+use App\Models\Registro;
 
 
 
@@ -39,66 +40,65 @@ class NewsletterController extends Controller
      newsletter é salva no banco de dados. No final do código, ocorre o
       redirecionamento para a página de newsletters com uma mensagem de sucesso.*/
 
-    public function create(Request $request)
-    {
-        $newsIds = explode(',', $request->input('selectedNews'));
-        $titulo = $request->input('titulo');
-        $conteudo = $request->input('conteudo');
-        $dataEnvio = $request->input('data_envio');
-
-        // Obter os dados das notícias correspondentes
-        $news = News::whereIn('id', $newsIds)->get();
-        $tagsInput = $request->input('tags');
-        $tagsArray = explode(',', $tagsInput);
-        $tagIds = [];
-
-        // Crie ou recupere os registros das tags no banco de dados
-        foreach ($tagsArray as $tagName) {
-            $tagName = strtolower(trim($tagName));
-            $tag = Tag::where('nome', $tagName)->first();
-
-            if (!$tag) {
-                $tag = new Tag();
-                $tag->nome = $tagName;
-                $tag->save();
-            }
-
-            $tagIds[] = $tag->id;
-        }
-
-        // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
-        $newsletter = new Newsletter();
-        $newsletter->titulo = $titulo;
-
-        $assinante = DB::table('assinantes')
-            ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
-            ->inRandomOrder()
-            ->select('assinantes.nome', 'codiPostal.concelho')
-            ->first();
-
-        if ($assinante) {
-            $nomeAssinante = $assinante->nome;
-            $concelhoAssinante = $assinante->concelho;
-
-            $conteudoComNome = preg_replace('/\[NOME\]/', $nomeAssinante, $conteudo);
-            $conteudoComConcelho = preg_replace('/\[CONCELHO\]/', $concelhoAssinante, $conteudoComNome);
-
-            $newsletter->conteudo = $conteudoComConcelho;
-        } else {
-            $newsletter->conteudo = $conteudo;
-        }
-
-        $newsletter->data_envio = $dataEnvio;
-        $newsletter->save();
-
-        $newsletter->news()->detach();
-        $newsletter->news()->attach($newsIds);
-
-        $newsletter->tags()->attach($tagIds);
-
-        return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
-    }
-
+      public function create(Request $request)
+      {
+          $newsIds = explode(',', $request->input('selectedNews'));
+          $titulo = $request->input('titulo');
+          $conteudo = $request->input('conteudo');
+          $dataEnvio = $request->input('data_envio');
+      
+          // Obter os dados das notícias correspondentes
+          $news = News::whereIn('id', $newsIds)->get();
+          $tagsInput = $request->input('tags');
+          $tagsArray = explode(',', $tagsInput);
+          $tagIds = [];
+      
+          // Crie ou recupere os registros das tags no banco de dados
+          foreach ($tagsArray as $tagName) {
+              $tagName = strtolower(trim($tagName));
+              $tag = Tag::where('nome', $tagName)->first();
+      
+              if (!$tag) {
+                  $tag = new Tag();
+                  $tag->nome = $tagName;
+                  $tag->save();
+              }
+      
+              $tagIds[] = $tag->id;
+          }
+      
+          // Crie a newsletter com base nos IDs das notícias selecionadas, título e conteúdo
+          $newsletter = new Newsletter();
+          $newsletter->user_id = auth()->user()->id; // ID do usuário autenticado
+          $newsletter->titulo = $titulo;
+      
+          $assinante = DB::table('assinantes')
+              ->join('codiPostal', 'assinantes.id_codiPostal', '=', 'codiPostal.id')
+              ->inRandomOrder()
+              ->select('assinantes.nome', 'codiPostal.concelho')
+              ->first();
+      
+ 
+              $newsletter->conteudo = $conteudo;
+          
+      
+          $newsletter->data_envio = $dataEnvio;
+          $newsletter->save();
+      
+          $newsletter->news()->detach();
+          $newsletter->news()->attach($newsIds);
+      
+          $newsletter->tags()->attach($tagIds);
+      
+          // Atualizar os campos 'newsletter_enviadas' e 'tags_utilizadas_newsletters' na tabela de registros
+          $registro = Registro::firstOrNew(['user_id' => auth()->user()->id]);
+          $registro->newsletter_count += 1; // Incrementar o valor para cada newsletter enviada
+          $registro->tags_utilizadas_newsletters += count($tagIds);
+          $registro->save();
+      
+          return redirect('/newsletters')->with('success', 'A newsletter foi criada com sucesso!');
+      }
+      
 
     public function show($id)
     {
@@ -175,5 +175,29 @@ class NewsletterController extends Controller
     }
 
 
+    // enviou de count para resgistos sobre a quantiadade de newsletters_criadas 
+    public function countNewslettersEnviadas()
+{
+    $count = Newsletter::where('enviada', true)->count();
+
+    Registro::updateOrCreate(
+        ['id' => 1], // Assuming you want to update the row with id 1, adjust as needed
+        ['newsletter_enviadas' => $count]
+    );
+
+    return $count;
+}
+
+public function countNewslettersRecebidas()
+{
+    $count = Newsletter::count();
+
+    Registro::updateOrCreate(
+        ['id' => 1], // Supondo que você queira atualizar a linha com id 1, ajuste conforme necessário
+        ['newsletter_recebidas' => $count]
+    );
+
+    return $count;
+}
     
 }

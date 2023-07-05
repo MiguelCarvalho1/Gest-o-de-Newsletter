@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/doodle/48/newsletter.png">
 
     <title>@yield('title')</title>
 
@@ -91,6 +92,28 @@
         .submit-btn:hover {
             background-color: #45a049;
         }
+
+        .menu-superior {
+        margin-bottom: 20px;
+    }
+
+    .btn-exportar {
+        margin-right: 10px;
+    }
+
+    #welcome-section {
+    background-image: url('/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+}
     </style>
 </head>
 

@@ -1,13 +1,14 @@
 @extends('layouts.style')
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>News</title>
+    <title>Newsletters</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/doodle/48/newsletter.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
@@ -98,26 +99,50 @@
     <header>
         <!-- Cabeçalho do site -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ url('/dashboard') }}">Newslletter</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="{{ url('/admin') }}">Plataforma de Gestão de Newsletter</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url('/dashboard') }}">Home</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/newsletters') }}">Newsletters</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/news') }}">News</a>
+                        <a class="nav-link" href="{{ url('/news') }}">Notícias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/news/create') }}">Create news</a>
+                        <a class="nav-link" href="{{ url('/tags') }}">Tags</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/news/selecionar') }}">Create Newsletter</a>
+                        <a class="nav-link" href="{{ url('/registos') }}">Registos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/tags/criar') }}">Create Tags</a>
+                        <a class="nav-link" href="{{ url('/news/create') }}">Criar Noticias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/news/selecionar') }}">Criar Newsletter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/tags/criar') }}"> Criar Tags</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/admin/assinante') }}">Assinantes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    Sair
+                                </button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -159,22 +184,22 @@
                                         @endforeach
                                     </td>
                                     <td style="text-align: center;">
-                                        <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary">
+                                        <a href="/newsletters/{{ $newsletter->id }}" class="btn btn-primary"onclick="return confirm('Tem certeza que quer ver a newsletter?')">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-warning">
+                                        <a href="/newsletters/edit/{{ $newsletter->id }}" class="btn btn-warning"onclick="return confirm('Tem certeza que quer editar a newsletter?')">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <form action="/newsletters/{{ $newsletter->id }}" method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-danger"onclick="return confirm('Tem certeza que quer eliminar a newsletter?')">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
                                         <form action="{{ route('enviar.newsletter', ['newsletterId' => $newsletter->id]) }}" method="POST">
                                        @csrf
-                                        <button type="submit">Enviar Email</button>
+                                        <button type="submit"onclick="return confirm('Tem certeza que deseja enviar?')">Enviar Email</button>
                                          </form>
                                     </td>
                                 </tr>

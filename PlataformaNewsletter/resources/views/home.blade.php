@@ -1,6 +1,7 @@
 @extends('layouts.style_home')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/doodle/48/newsletter.png">
 <body class="antialiased" >
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
         @if (Route::has('login'))

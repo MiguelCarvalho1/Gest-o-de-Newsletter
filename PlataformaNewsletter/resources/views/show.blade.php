@@ -1,9 +1,10 @@
 @extends('layouts.style_show')
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" type="image/png" href="https://img.icons8.com/doodle/48/newsletter.png">
 </head>
 <body>
     <div class="container">
